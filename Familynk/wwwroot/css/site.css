@@ -15,8 +15,18 @@
 html {
   position: relative;
   min-height: 100%;
+  max-height: 100%;
 }
 
 body {
   margin-bottom: 60px;
+  background-color:peachpuff;
 }
+
+/*#region =========== Family Room ===========*/
+.sidebar {
+    max-width: 20em;
+    max-height: 100vh;
+}
+
+/*#endregion*/

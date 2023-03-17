@@ -13,9 +13,9 @@ public class HouseController : Controller
         _toast = services.GetRequiredService<INotyfService>();
     }
 
-    public async Task<IActionResult> FrontPorch()
+    public IActionResult FrontPorch()
     {
-        await Task.CompletedTask;
+       
         return View();
     }
 

@@ -28,12 +28,15 @@
     <None Remove="Models\Mesages\" />
     <None Remove="Views\Account\" />
     <None Remove="ViewModels\" />
+    <None Remove="Views\Family\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Models\Mesages\" />
     <Folder Include="Views\Account\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="Views\Family\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Repositories\IFamilyRepo.cs" />
@@ -41,5 +44,13 @@
     <Compile Remove="Models\GreetingsMat.cs" />
     <Compile Remove="Data\ImageCollection.cs" />
     <Compile Remove="ViewModels\RegisterVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="wwwroot\images\livingRoom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

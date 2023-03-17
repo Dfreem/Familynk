@@ -28,8 +28,8 @@ namespace Familynk.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            UserProfileVM uvm = new();
-            return View();
+            UserProfileVM uvm = new(CurrentUser);
+            return View(uvm);
         }
         [HttpGet]
         public IActionResult Register()
@@ -86,6 +86,11 @@ namespace Familynk.Controllers
             }
             ModelState.AddModelError("", "Invalid username/password.");
             return View(lvm);
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
