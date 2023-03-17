@@ -1,0 +1,77 @@
+﻿@using System.Globalization
+@model UserProfileVM
+@{
+    ViewData["Title"] = "User Profile";
+}
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="d-grid my-4">
+    <div class="row">
+        <div class="col-6">
+            
+        </div>
+        <div class="col-1">
+            <div class="vr mx-auto"></div>
+        </div>
+
+        <div class="col-5">
+
+            @Html.DisplayFor(model => model)
+            <form method="post" asp-controller="Account" asp-action="ChangeUserInfo">
+                <div class="form-floating d-flex my-1">
+
+                    <label asp-for="Name">
+                    </label>
+                    <input type="text" asp-for="Name" class="form-control" value="" />
+                </div>
+                <div class="form-floating d-flex my-1">
+
+                    <label asp-for="Email">
+                    </label>
+                    <input type="hidden" value="@Model.Id" asp-for="Id" />
+                    <input type="text" asp-for="Email" class="form-control" value="" />
+                    <input type="submit" value="save" class="btn btn-primary" />
+                </div>
+            </form>
+            <hr />
+            <form method="post" asp-controller="Account" asp-action="ChangeUserName">
+                <div class="form-floating d-flex my-1">
+
+                    <input type="hidden" value="@Model.Id" asp-for="Id" />
+                    <label asp-for="UserName">
+                    </label>
+                    <input type="text" asp-for="UserName" class="form-control" value="" />
+                    <span asp-validation-for="UserName"></span>
+                    <input type="submit" value="save" class="btn btn-primary" />
+                </div>
+            </form>
+            <hr />
+            <form method="post" asp-action="ChangePassword" asp-controller="Account">
+
+                <input type="hidden" value="@Model.Id" asp-for="Id" />
+                <div class="form-floating d-flex my-1">
+                    <label asp-for="NewPassword">New Password</label>
+                    <input type="password" asp-for="NewPassword" class="form-control" />
+                    <span asp-validation-for="NewPassword" class="text-danger"></span>
+                </div>
+                <div class="form-floating d-flex my-1">
+                    <label asp-for="ConfirmPassword">
+                        Confirm new Password
+                    </label>
+                    <input type="password" asp-for="ConfirmPassword" class="form-control input-line-height-1" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-floating d-flex my-1">
+                    <label asp-for="Password">
+                        Current password
+                    </label>
+                    <input type="password" asp-for="Password" class="form-control input-line-height-1" />
+                    <input type="submit" value="Change Password" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+Footer

@@ -1,12 +1,16 @@
-﻿namespace Familynk.Controllers;
+﻿
+
+namespace Familynk.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IServiceProvider _services;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IServiceProvider serices)
     {
         _logger = logger;
+        _services = serices;
     }
 
     public IActionResult Index()
