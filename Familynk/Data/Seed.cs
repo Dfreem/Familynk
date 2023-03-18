@@ -20,7 +20,7 @@ public static class Seed
             Email = "dfreem987@gmail.com",
             Name = "Devin",
             UserName = "dfreem987",
-            PhoneNumber = "541-525-8040",
+            PhoneNumber = "123-456-7890",
             Family = freemanFam
         };
         FamilyMember testMember = new()

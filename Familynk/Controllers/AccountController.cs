@@ -43,7 +43,7 @@ namespace Familynk.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _toast.Error("something went wrong" + ModelState.Humanize());
+                _toast.Error("something went wrong");
             }
             var userManager = _signInManager.UserManager;
             var result = await userManager.CreateAsync(new FamilyMember()
@@ -52,7 +52,6 @@ namespace Familynk.Controllers
                 UserName = rvm.UserName,
                 Email = rvm.Email,
                 Birthday = rvm.Birthday,
-                PhoneNumber = rvm.PhoneNumber ?? ""
             }, "!BassCase987");
             if (result.Succeeded)
             {

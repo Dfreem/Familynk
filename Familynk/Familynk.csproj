@@ -49,10 +49,10 @@
     <Compile Remove="Repositories\FamilyRepository.cs" />
     <Compile Remove="Models\GreetingsMat.cs" />
     <Compile Remove="Data\ImageCollection.cs" />
-    <Compile Remove="ViewModels\RegisterVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
+    <Content Remove="ViewModels\RegisterVM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\images\livingRoom.png">
