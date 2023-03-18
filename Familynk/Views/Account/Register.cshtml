@@ -1,11 +1,10 @@
-﻿@model UserProfileVM
+﻿@model RegisterVM
 @{
     ViewBag.Title = "Register";
 }
 <h2>Register</h2>
 <div asp-validation-summary="All" class="text-danger"></div>
 <form method="post" asp-action="Register">
-    <input type="hidden" asp-for="Id" value="@Model.Id"/>
     <div class="row mb-2">
         <label class="col-form-label col-md-2">UserName:</label>
         <div class="col-md-4">
@@ -27,11 +26,10 @@
     <div class="row mb-2">
         <label class="col-form-label col-md-2">Email:</label>
         <div class="col-md-4">
-            <input asp-for="Email" class="form-control" />
+            <input type="email" asp-for=Email class="form-control" />
         </div>
-        <div class="col">
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
     </div>
     <div class="row mb-2">
         <label class="col-form-label col-md-2">Password:</label>
@@ -53,5 +51,7 @@
             <button type="submit" class="btn btn-primary">Register</button> <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Cancel</a>
         </div>
     </div>
-    <div class="row"> <div class="col offset-md-2"> Already registered? <a asp-action="LogIn">Log In</a> </div> </div>
-</form> Figure 
+    <div class="row">
+        <div class="col offset-md-2"> Already registered? <a asp-action="LogIn">Log In</a> </div>
+    </div>
+</form>
