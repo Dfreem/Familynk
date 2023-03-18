@@ -137,10 +137,6 @@ namespace Familynk.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("FamilyName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int?>("FamilyUnitId")
                         .HasColumnType("int");
 

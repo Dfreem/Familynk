@@ -7,7 +7,7 @@ namespace Familynk.ViewModels
         public FamilyUnit NewFamily { get; set; } = new();
         public List<FamilyUnit> Neighborhood { get; set; } = new();
         [Required]
-        public FamilyMember? Visitor { get; set; } = default!;
+        public FamilyMember? Visitor { get; set; }
     }
 }
 

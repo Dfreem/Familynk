@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Familynk.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20230318032106_init")]
+    [Migration("20230318043740_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -139,10 +139,6 @@ namespace Familynk.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("FamilyName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<int?>("FamilyUnitId")
                         .HasColumnType("int");

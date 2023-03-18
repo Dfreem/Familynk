@@ -100,6 +100,7 @@ li, ol, ul, dl {
 
 .card {
     opacity: .9;
+    margin:2em;
     background-color: var(--eggshell);
     backdrop-filter: contrast(.8) opacity(.7);
 }

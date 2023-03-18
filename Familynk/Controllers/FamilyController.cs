@@ -13,9 +13,9 @@ public class FamilyController : Controller
     private readonly SignInManager<FamilyMember> _signInManager;
     private readonly UserManager<FamilyMember> _userManager;
     private readonly FamilyContext _context;
-    private readonly INotyfService _toast; 
+    private readonly INotyfService _toast;
 
-    public FamilyMember CurrentUser {get;set;}
+    public FamilyMember CurrentUser { get; set; }
     public FamilyController(IServiceProvider services)
     {
         _toast = services.GetRequiredService<INotyfService>();
@@ -53,8 +53,9 @@ public class FamilyController : Controller
 
     #region Non-View Methods
 
+    // TODO fix adding both seed members to all new families.
     [HttpPost]
-    public async Task CreateNewFamily(WelcomeVM wvm)
+    public async Task<IActionResult> CreateNewFamily(WelcomeVM wvm)
     {
         FamilyUnit family = new() { FamilyName = wvm.NewFamily.FamilyName };
         _context.Neighborhood.Add(family);
@@ -65,9 +66,10 @@ public class FamilyController : Controller
         if (result.Succeeded)
         {
             _toast.Success($"Succesfully created the {family.FamilyName} Family");
-            return;
+            return RedirectToAction("Index", "Home");
         }
         _toast.Error("Unable to create new family");
+        return RedirectToAction("Index", "Home");
     }
     #endregion
 }

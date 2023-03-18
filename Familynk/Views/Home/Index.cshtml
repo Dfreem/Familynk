@@ -8,21 +8,22 @@
 </h1>
 <br />
 <div class="family-list opacity-90 d-flex flex-wrap flex-row">
-    <ul>
-        @for (int i = 0; i < Model.Neighborhood.Count; i++)
-        {
-            <li>
-                @Html.DisplayFor(m => m.Neighborhood[i])
-            </li>
-        }
-    </ul>
+    @for (int i = 0; i < Model.Neighborhood.Count; i++)
+    {
+        <div>
+            @Html.DisplayFor(m => m.Neighborhood[i])
+        </div>
+    }
+
 </div>
+
 <form method="post" asp-action="CreateNewFamily" asp-controller="Family">
     <div class="form-floating w-50">
         <input asp-for="NewFamily.FamilyName" class="form-control" />
         <label asp-for="NewFamily.FamilyName">New Family Name</label>
-        <input type="submit" value="create" class="btn btn-primary" />
+      
     </div>
-
+    <input type="submit" value="create" class="btn btn-primary" />
 </form>
 
+This is a temporary link to your families <a asp-action="FamilyRoom" asp-controller="Family">Family Room</a>

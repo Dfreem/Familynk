@@ -6,8 +6,6 @@ public class FamilyMember : IdentityUser
     [MinLength(1, ErrorMessage = "Please enter your name")]
     [MaxLength(20, ErrorMessage = "Name cnnot be longer than 20 characters")]
     public FamilyUnit? Family { get; set; } = default!;
-    [Required]
-    public string FamilyName { get; set; } = default!;
     public DateTime Birthday { get; set; } = DateTime.Now;
     // I don't think this is needed
     //[NotMapped]

@@ -20,13 +20,11 @@ public static class Seed
             Email = "dfreem987@gmail.com",
             Name = "Devin",
             UserName = "dfreem987",
-            FamilyName = "Freeman",
             PhoneNumber = "541-525-8040",
             Family = freemanFam
         };
         FamilyMember testMember = new()
         {
-            FamilyName = "Freeman",
             Name = "unit member 1",
             Birthday = DateTime.Now,
             Email = "test@test.com",
