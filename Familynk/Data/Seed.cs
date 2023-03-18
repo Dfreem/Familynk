@@ -25,7 +25,7 @@ public static class Seed
         };
         FamilyMember testMember = new()
         {
-            Name = "unit member 1",
+            Name = "some guy",
             Birthday = DateTime.Now,
             Email = "test@test.com",
             EmailConfirmed = true,
