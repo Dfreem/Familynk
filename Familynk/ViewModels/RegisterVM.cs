@@ -11,13 +11,13 @@ namespace Familynk.ViewModels
         public string UserName { get; set; } = default!;
         [EmailAddress]
         public string Email { get; set; } = default!;
-        public DateTime? Birthday { get; set; }
         public string? PhoneNumber { get; set; }
         [Required]
         [PasswordPropertyText]
         public string Password { get; set; } = default!;
         [Required]
         [PasswordPropertyText]
+        [Compare("Password", ErrorMessage = "passwords must match")]
         public string ConfirmPassword { get; set; } = default!;
     }
 }

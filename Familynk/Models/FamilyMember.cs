@@ -4,9 +4,9 @@ namespace Familynk.Models;
 public class FamilyMember : IdentityUser
 {
     [MinLength(1, ErrorMessage = "Please enter your name")]
-    [MaxLength(20, ErrorMessage = "Name cnnot be longer than 20 characters")]
+    [MaxLength(20, ErrorMessage = "Name cannot be longer than 20 characters")]
     public FamilyUnit? Family { get; set; } = default!;
-    public DateTime Birthday { get; set; } = DateTime.Now;
+    public DateTime? Birthday { get; set; } = null;
     // I don't think this is needed
     //[NotMapped]
     //public List<string> Roles { get; set; } = new();

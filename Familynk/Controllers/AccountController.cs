@@ -34,28 +34,30 @@ namespace Familynk.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            UserProfileVM uvm = new();
-            return View(uvm);
+            RegisterVM rvm = new();
+            return View(rvm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserProfileVM rvm)
+        public async Task<IActionResult> Register(RegisterVM rvm)
         {
             if (!ModelState.IsValid)
             {
                 _toast.Error("something went wrong");
+                return View(rvm);
             }
+            
             var userManager = _signInManager.UserManager;
             var result = await userManager.CreateAsync(new FamilyMember()
             {
                 Name = rvm.Name,
                 UserName = rvm.UserName,
                 Email = rvm.Email,
-                Birthday = rvm.Birthday,
-            }, "!BassCase987");
+            }, rvm.Password);
             if (result.Succeeded)
             {
                 _toast.Success("Registered new Family member\n" + rvm.Name);
+                return RedirectToAction("Index","Home");
             }
             _toast.Error("Unable to Register User" + result.Errors.Humanize());
             return View(rvm);
