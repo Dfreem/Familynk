@@ -3,15 +3,21 @@ namespace Familynk.Models;
 
 public class FamilyMember : IdentityUser
 {
-    public string Name { get; set; } = "no name";
-    public string FamilyName { get; set; } = "";
-    public DateOnly Birthday { get; set; }
+    [MinLength(1, ErrorMessage = "Please enter your name")]
+    [MaxLength(20, ErrorMessage = "Name cnnot be longer than 20 characters")]
+    public FamilyUnit? Family { get; set; } = default!;
+    [Required]
+    public string FamilyName { get; set; } = default!;
+    public DateTime Birthday { get; set; } = DateTime.Now;
     // I don't think this is needed
     //[NotMapped]
     //public List<string> Roles { get; set; } = new();
+    public string Name { get; set; } = "";
+    public List<MemberTag> TaggedIn { get; set; } = new();
+    public List<MemberTag> Tags { get; set; } = new();
 
-    protected List<MemberTag> TaggedIn { get; set; } = new();
-    protected List<DirectMessage> DMs { get; set; } = new();
-    protected List<AppMessage> SentMessages { get; set; } = new();
+    public List<DirectMessage> DMsRecieved { get; set; } = new();
+    public List<DirectMessage> DMsSent { get; set; } = new();
+    
 }
 

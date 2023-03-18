@@ -7,6 +7,10 @@
     <UserSecretsId>aspnet-FamilyChat-7d98e67b-94f6-4133-b439-a9c553dddc21</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>3</WarningLevel>
+    <NoWarn></NoWarn>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
@@ -29,6 +33,7 @@
     <None Remove="Views\Account\" />
     <None Remove="ViewModels\" />
     <None Remove="Views\Family\" />
+    <None Remove="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
@@ -37,6 +42,7 @@
     <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="Views\Family\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Repositories\IFamilyRepo.cs" />

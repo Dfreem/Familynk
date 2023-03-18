@@ -1,7 +1,28 @@
-﻿@{
-    ViewData["Title"] = "Welcome";
+﻿@model WelcomeVM
+@{
+    ViewData["Title"] = "Neighborhood";
+    Model.NewFamily = new();
 }
 <h1>
     Welcome to the Neighborhood!
 </h1>
+<br />
+<div class="family-list opacity-90 d-flex flex-wrap flex-row">
+    <ul>
+        @for (int i = 0; i < Model.Neighborhood.Count; i++)
+        {
+            <li>
+                @Html.DisplayFor(m => m.Neighborhood[i])
+            </li>
+        }
+    </ul>
+</div>
+<form method="post" asp-action="CreateNewFamily" asp-controller="Family">
+    <div class="form-floating w-50">
+        <input asp-for="NewFamily.FamilyName" class="form-control" />
+        <label asp-for="NewFamily.FamilyName">New Family Name</label>
+        <input type="submit" value="create" class="btn btn-primary" />
+    </div>
+
+</form>
 

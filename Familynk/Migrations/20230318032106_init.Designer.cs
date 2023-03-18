@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Familynk.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20230317023053_init")]
+    [Migration("20230318032106_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -28,27 +28,24 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AppMessageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Body")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsReply")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<TimeSpan>("LifeSpan")
-                        .HasColumnType("time(6)");
-
                     b.Property<int?>("ScrapId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SenderId")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
 
                     b.HasKey("CommentId");
 
                     b.HasIndex("ScrapId");
-
-                    b.HasIndex("SenderId");
 
                     b.ToTable("Comments");
                 });
@@ -59,24 +56,29 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AppMessageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Body")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<TimeSpan>("LifeSpan")
-                        .HasColumnType("time(6)");
-
-                    b.Property<string>("RecipientId")
+                    b.Property<string>("FamilyMemberId")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("SenderId")
+                    b.Property<string>("FamilyMemberId1")
                         .HasColumnType("varchar(255)");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
 
                     b.HasKey("DirectMessageId");
 
-                    b.HasIndex("RecipientId");
+                    b.HasIndex("FamilyMemberId");
 
-                    b.HasIndex("SenderId");
+                    b.HasIndex("FamilyMemberId1");
 
                     b.ToTable("DMs");
                 });
@@ -85,6 +87,9 @@ namespace Familynk.Migrations
                 {
                     b.Property<int>("FamilyCalendarId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("FamilyId")
                         .HasColumnType("int");
 
                     b.Property<string>("SerializedCalendar")
@@ -102,6 +107,12 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("MemberTagId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
                     b.HasKey("FamilyEventId");
 
                     b.ToTable("Events");
@@ -115,8 +126,8 @@ namespace Familynk.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("Birthday")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -128,12 +139,6 @@ namespace Familynk.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<int?>("FamilyEventId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("FamilyMessageId")
-                        .HasColumnType("int");
 
                     b.Property<string>("FamilyName")
                         .IsRequired()
@@ -147,9 +152,6 @@ namespace Familynk.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("MemberTagId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -172,12 +174,6 @@ namespace Familynk.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("ScrapBookId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ScrapId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
@@ -190,13 +186,7 @@ namespace Familynk.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FamilyEventId");
-
-                    b.HasIndex("FamilyMessageId");
-
                     b.HasIndex("FamilyUnitId");
-
-                    b.HasIndex("MemberTagId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -204,10 +194,6 @@ namespace Familynk.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
-
-                    b.HasIndex("ScrapBookId");
-
-                    b.HasIndex("ScrapId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -218,19 +204,19 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AppMessageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Body")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<TimeSpan>("LifeSpan")
-                        .HasColumnType("time(6)");
+                    b.Property<int>("MemberTagId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("SenderId")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
 
                     b.HasKey("FamilyMessageId");
-
-                    b.HasIndex("SenderId");
 
                     b.ToTable("BulletinBoard");
                 });
@@ -245,17 +231,7 @@ namespace Familynk.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("FamilyScrapsScrapBookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RulesHouseRulesId")
-                        .HasColumnType("int");
-
                     b.HasKey("FamilyUnitId");
-
-                    b.HasIndex("FamilyScrapsScrapBookId");
-
-                    b.HasIndex("RulesHouseRulesId");
 
                     b.ToTable("Neighborhood");
                 });
@@ -293,7 +269,6 @@ namespace Familynk.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Bytes")
-                        .IsRequired()
                         .HasColumnType("longblob");
 
                     b.Property<string>("FileExtension")
@@ -310,7 +285,7 @@ namespace Familynk.Migrations
                     b.Property<int?>("ScrapId")
                         .HasColumnType("int");
 
-                    b.Property<int>("width")
+                    b.Property<int?>("width")
                         .HasColumnType("int");
 
                     b.HasKey("ImageId");
@@ -328,25 +303,21 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("AppMessageId")
+                        .HasColumnType("int");
 
-                    b.Property<TimeSpan>("LifeSpan")
-                        .HasColumnType("time(6)");
+                    b.Property<string>("Body")
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("PictureImageId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
 
                     b.HasKey("MagneticMessageId");
 
                     b.HasIndex("PictureImageId");
-
-                    b.HasIndex("SenderId");
 
                     b.ToTable("Refrigerator");
                 });
@@ -357,13 +328,20 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("SenderId")
-                        .IsRequired()
+                    b.Property<string>("FamilyMemberId")
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("FamilyMemberId1")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
 
                     b.HasKey("MemberTagId");
 
-                    b.HasIndex("SenderId");
+                    b.HasIndex("FamilyMemberId");
+
+                    b.HasIndex("FamilyMemberId1");
 
                     b.ToTable("Tags");
                 });
@@ -374,26 +352,21 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AppMessageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Body")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<TimeSpan>("LifeSpan")
-                        .HasColumnType("time(6)");
-
                     b.Property<string>("RecipientId")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
 
                     b.HasKey("NotificationId");
 
                     b.HasIndex("RecipientId");
-
-                    b.HasIndex("SenderId");
 
                     b.ToTable("Notifications");
                 });
@@ -404,19 +377,14 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<TimeSpan>("LifeSpan")
-                        .HasColumnType("time(6)");
+                    b.Property<int>("MemberTagId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ScrapBookId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -426,8 +394,6 @@ namespace Familynk.Migrations
 
                     b.HasIndex("ScrapBookId");
 
-                    b.HasIndex("SenderId");
-
                     b.ToTable("Scraps");
                 });
 
@@ -435,6 +401,12 @@ namespace Familynk.Migrations
                 {
                     b.Property<int>("ScrapBookId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("MemberTagId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderId")
                         .HasColumnType("int");
 
                     b.HasKey("ScrapBookId");
@@ -575,82 +547,26 @@ namespace Familynk.Migrations
                     b.HasOne("Familynk.Models.Scrap", null)
                         .WithMany("Comments")
                         .HasForeignKey("ScrapId");
-
-                    b.HasOne("Familynk.Models.FamilyMember", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId");
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Familynk.Models.DirectMessage", b =>
                 {
-                    b.HasOne("Familynk.Models.FamilyMember", "Recipient")
-                        .WithMany()
-                        .HasForeignKey("RecipientId");
+                    b.HasOne("Familynk.Models.FamilyMember", null)
+                        .WithMany("DMsRecieved")
+                        .HasForeignKey("FamilyMemberId");
 
-                    b.HasOne("Familynk.Models.FamilyMember", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId");
-
-                    b.Navigation("Recipient");
-
-                    b.Navigation("Sender");
+                    b.HasOne("Familynk.Models.FamilyMember", null)
+                        .WithMany("DMsSent")
+                        .HasForeignKey("FamilyMemberId1");
                 });
 
             modelBuilder.Entity("Familynk.Models.FamilyMember", b =>
                 {
-                    b.HasOne("Familynk.Models.FamilyEvent", null)
-                        .WithMany("TaggedMembers")
-                        .HasForeignKey("FamilyEventId");
-
-                    b.HasOne("Familynk.Models.FamilyMessage", null)
-                        .WithMany("TaggedMembers")
-                        .HasForeignKey("FamilyMessageId");
-
-                    b.HasOne("Familynk.Models.FamilyUnit", null)
-                        .WithMany("FamilyMembers")
+                    b.HasOne("Familynk.Models.FamilyUnit", "Family")
+                        .WithMany("Members")
                         .HasForeignKey("FamilyUnitId");
 
-                    b.HasOne("Familynk.Models.MemberTag", null)
-                        .WithMany("TaggedMembers")
-                        .HasForeignKey("MemberTagId");
-
-                    b.HasOne("Familynk.Models.ScrapBook", null)
-                        .WithMany("TaggedMembers")
-                        .HasForeignKey("ScrapBookId");
-
-                    b.HasOne("Familynk.Models.Scrap", null)
-                        .WithMany("TaggedMembers")
-                        .HasForeignKey("ScrapId");
-                });
-
-            modelBuilder.Entity("Familynk.Models.FamilyMessage", b =>
-                {
-                    b.HasOne("Familynk.Models.FamilyMember", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId");
-
-                    b.Navigation("Sender");
-                });
-
-            modelBuilder.Entity("Familynk.Models.FamilyUnit", b =>
-                {
-                    b.HasOne("Familynk.Models.ScrapBook", "FamilyScraps")
-                        .WithMany()
-                        .HasForeignKey("FamilyScrapsScrapBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Familynk.Models.HouseRules", "Rules")
-                        .WithMany()
-                        .HasForeignKey("RulesHouseRulesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FamilyScraps");
-
-                    b.Navigation("Rules");
+                    b.Navigation("Family");
                 });
 
             modelBuilder.Entity("Familynk.Models.Image", b =>
@@ -670,45 +586,27 @@ namespace Familynk.Migrations
                         .WithMany()
                         .HasForeignKey("PictureImageId");
 
-                    b.HasOne("Familynk.Models.FamilyMember", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Picture");
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Familynk.Models.MemberTag", b =>
                 {
-                    b.HasOne("Familynk.Models.FamilyMember", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Familynk.Models.FamilyMember", null)
+                        .WithMany("TaggedIn")
+                        .HasForeignKey("FamilyMemberId");
 
-                    b.Navigation("Sender");
+                    b.HasOne("Familynk.Models.FamilyMember", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("FamilyMemberId1");
                 });
 
             modelBuilder.Entity("Familynk.Models.Notification", b =>
                 {
                     b.HasOne("Familynk.Models.FamilyMember", "Recipient")
                         .WithMany()
-                        .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Familynk.Models.FamilyMember", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RecipientId");
 
                     b.Navigation("Recipient");
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Familynk.Models.Scrap", b =>
@@ -716,14 +614,6 @@ namespace Familynk.Migrations
                     b.HasOne("Familynk.Models.ScrapBook", null)
                         .WithMany("Entries")
                         .HasForeignKey("ScrapBookId");
-
-                    b.HasOne("Familynk.Models.FamilyMember", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -777,24 +667,20 @@ namespace Familynk.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Familynk.Models.FamilyEvent", b =>
+            modelBuilder.Entity("Familynk.Models.FamilyMember", b =>
                 {
-                    b.Navigation("TaggedMembers");
-                });
+                    b.Navigation("DMsRecieved");
 
-            modelBuilder.Entity("Familynk.Models.FamilyMessage", b =>
-                {
-                    b.Navigation("TaggedMembers");
+                    b.Navigation("DMsSent");
+
+                    b.Navigation("TaggedIn");
+
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("Familynk.Models.FamilyUnit", b =>
                 {
-                    b.Navigation("FamilyMembers");
-                });
-
-            modelBuilder.Entity("Familynk.Models.MemberTag", b =>
-                {
-                    b.Navigation("TaggedMembers");
+                    b.Navigation("Members");
                 });
 
             modelBuilder.Entity("Familynk.Models.Scrap", b =>
@@ -802,8 +688,6 @@ namespace Familynk.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Images");
-
-                    b.Navigation("TaggedMembers");
                 });
 
             modelBuilder.Entity("Familynk.Models.ScrapBook", b =>
@@ -811,8 +695,6 @@ namespace Familynk.Migrations
                     b.Navigation("Entries");
 
                     b.Navigation("Photos");
-
-                    b.Navigation("TaggedMembers");
                 });
 #pragma warning restore 612, 618
         }

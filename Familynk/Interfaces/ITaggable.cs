@@ -2,5 +2,6 @@
 
 public interface ITaggable
 {
-    public List<FamilyMember> TaggedMembers { get; set; }
+    public int MemberTagId { get; set; }
+    public int SenderId { get; set; }
 }

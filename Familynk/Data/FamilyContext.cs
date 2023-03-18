@@ -13,7 +13,6 @@ public class FamilyContext : IdentityDbContext<FamilyMember>
     public DbSet<FamilyEvent> Events { get; set; }
     public DbSet<FamilyCalendar> FamilyCalendars { get; set; }
     public DbSet<FamilyMessage> BulletinBoard { get; set; }
-    public DbSet<FamilyMember> FamilyMembers { get; set; }
     public DbSet<FamilyUnit> Neighborhood { get; set; }
     public DbSet<HouseRules> Rules { get; set; }
     public DbSet<MagneticMessage> Refrigerator { get; set; }
@@ -23,5 +22,6 @@ public class FamilyContext : IdentityDbContext<FamilyMember>
     public DbSet<MemberTag> Tags { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<Comment> Comments { get; set; }
+
 }
 

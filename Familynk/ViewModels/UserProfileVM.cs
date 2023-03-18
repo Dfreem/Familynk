@@ -21,7 +21,7 @@ public class UserProfileVM
     [MaxLength(20, ErrorMessage = "UserName cannot be longer than 20 characters")]
     [Required]
     public string UserName { get; set; } = "No UserName";
-    public DateOnly Birthday { get; set; } = default!;
+    public DateTime Birthday { get; set; } = default!;
     [Phone]
     public string? PhoneNumber { get; set; } = default!;
     public UserProfileVM()

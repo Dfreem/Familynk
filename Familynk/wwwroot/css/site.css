@@ -1,32 +1,119 @@
-﻿html {
-  font-size: 14px;
+﻿@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,800;1,600&display=swap');
+/*font-family: 'Fira Sans', sans-serif;*/
+:root {
+    /*theme 1*/
+    --eggshell: #f4f1deff;
+    --burnt-sienna: #e07a5fff;
+    --delft-blue: #3d405bff;
+    --cambridge-blue: #81b29aff;
+    --sunset: #f2cc8fff;
+    /*theme 2*/
+    --rich-black: #001524ff;
+    --caribbean-current: #15616dff;
+    --papaya-whip: #ffecd1ff;
+    --orange-wheel: #ff7d00ff;
+    --sienna: #78290fff;
 }
+
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+.footer a:any-link {
+    color:var(--caribbean-current);
+    text-decoration:none;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+.btn-primary {
+    color: var(--papaya-whip);
+    background-color: var(--delft-blue);
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid var(--papaya-whip);
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem var(--sunset);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    background-color: var(--rich-black);
+    color: var(--papaya-whip)
+}
+
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem var(--orange-wheel);
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-  max-height: 100%;
-}
 
 body {
-  margin-bottom: 60px;
-  background-color:peachpuff;
+    background-color: peachpuff;
+    min-height:100vh;
+    max-height: 100vh;
+}
+
+
+li, ol, ul, dl {
+    list-style-type: none;
 }
 
 /*#region =========== Family Room ===========*/
-.sidebar {
-    max-width: 20em;
-    max-height: 100vh;
+.family-list {
+    list-style: none;
+    text-shadow: 2px 2px 5px var(--caribbean-current);
+    marker: none;
+    width: fit-content;
 }
+
+.card {
+    opacity: .9;
+    background-color: var(--eggshell);
+    backdrop-filter: contrast(.8) opacity(.7);
+}
+
+.card-header, .card-body {
+    padding: 1em;
+}
+/*#endregion*/
+/*
+.text-primary {
+    color: var(--cambridge-blue);
+    font-family: 'Fira Sans', sans-serif;
+}
+*/
+/*#region =========== Family Room ===========*/
 
 /*#endregion*/

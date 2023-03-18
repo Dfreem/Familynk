@@ -2,11 +2,12 @@
 
 public abstract class AppMessage
 {
-    public abstract string Body { get; set; }
-    public abstract FamilyMember Sender { get; set; }
+    public int AppMessageId { get; set; }
+    public string? Body { get; set; }
+    public int SenderId { get; set; }
     /// <summary>
     /// How long does the message last before it is released from memory.
     /// A value of <see cref="TimeSpan.Zero"/> indicates no  limit to the message lifetime.
     /// </summary>
-    public abstract TimeSpan LifeSpan { get; init; }
+    public abstract TimeSpan LifeSpan { get; }
 }
