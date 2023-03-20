@@ -1,15 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Familynk.Data;
-using Familynk.Models;
-
 namespace Familynk.Controllers
 {
+    [Authorize(Roles = "HOH")]
     public class OfficeController : Controller
     {
         private readonly FamilyContext _context;

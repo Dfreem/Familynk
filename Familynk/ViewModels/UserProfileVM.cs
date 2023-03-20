@@ -20,8 +20,8 @@ public class UserProfileVM
     [MinLength(8, ErrorMessage = "UserName must be atleast 8 characters long")]
     [MaxLength(20, ErrorMessage = "UserName cannot be longer than 20 characters")]
     [Required]
-    public string UserName { get; set; } = "No UserName";
-    public DateTime Birthday { get; set; } = default!;
+    public string UserName { get; set; } = default!;
+    public DateTime? Birthday { get; set; } = default!;
     [Phone]
     public string? PhoneNumber { get; set; } = default!;
     public UserProfileVM()
@@ -35,6 +35,8 @@ public class UserProfileVM
         Id = fMember.Id;
         Name = fMember.Name;
         Email = fMember.Email;
+        UserName = fMember.UserName!;
+        Birthday = fMember.Birthday;
     }
 
     public static explicit operator FamilyMember(UserProfileVM upv)

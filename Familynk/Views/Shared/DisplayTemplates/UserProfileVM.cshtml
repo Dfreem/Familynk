@@ -1,0 +1,22 @@
+﻿@model UserProfileVM
+@{
+    ViewData["Title"] = Model.Name + "'s Profile";
+}
+
+<table class="profile-table">
+    <thead>
+        <tr>
+            <th class="px-4">Welcome Back @Model.Name</th>
+        </tr>
+    </thead>
+    <tr>
+        <td class="px-4">Email: @Model.Email</td>
+    </tr>
+    <tr>
+        <td class="px-4">UserName: @Model.UserName</td>
+    </tr>    <tr>
+        <td class="px-4">Birthday: @Model.Birthday</td>
+    </tr>    <tr>
+        <td class="px-4">Phone Number: @Model.PhoneNumber</td>
+    </tr>
+</table>
