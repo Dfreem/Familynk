@@ -29,20 +29,20 @@
 
   <ItemGroup>
     <None Remove="Interfaces\" />
-    <None Remove="Models\Mesages\" />
     <None Remove="Views\Account\" />
     <None Remove="ViewModels\" />
     <None Remove="Views\Family\" />
     <None Remove="Views\Shared\DisplayTemplates\" />
+    <None Remove="Util\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Models\Mesages\" />
     <Folder Include="Views\Account\" />
     <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="Views\Family\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
+    <Folder Include="Util\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Repositories\IFamilyRepo.cs" />
@@ -53,6 +53,14 @@
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
     <Content Remove="ViewModels\RegisterVM.cshtml" />
+    <Content Remove="Views\Shared\_FamilyCalanderPartial.cshtml" />
+    <Content Remove="Views\Calendar\Edit.cshtml" />
+    <Content Remove="Views\Calendar\Delete.cshtml" />
+    <Content Remove="Views\Calendar\Create.cshtml" />
+    <Content Remove="Views\Calendar\Index.cshtml" />
+    <Content Remove="Views\Calendar\Details.cshtml" />
+    <Content Remove="wwwroot\css\FamilyUnit.css" />
+    <Content Remove="wwwroot\css\FamilyCalendar.cshtml.css" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\images\livingRoom.png">

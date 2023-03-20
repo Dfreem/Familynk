@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.EntityFrameworkCore;
 
 namespace Familynk.Controllers;
 
@@ -28,7 +24,21 @@ public class FamilyController : Controller
     // GET: /<controller>/
     public IActionResult FamilyRoom()
     {
-        return View();
+        var messages = _context.ChatTv.Where(m => m.FamilyUnitId.Equals(CurrentUser.FamilyUnitId));
+
+        FamilyChat familyMessages = new() { Messages = messages.ToList() };
+        LivingRoomVM lvm = new()
+        {
+            ChatTv = familyMessages,
+            CurrentUser = CurrentUser,
+            Family = _context.Neighborhood.First(
+                u => u.FamilyUnitId.Equals(CurrentUser.FamilyUnitId))
+        };
+        lvm.Family.GetCalendar = new()
+        {
+            FamilyName = lvm.Family.FamilyName
+        };
+        return View(lvm);
     }
     public IActionResult ScrapBook()
     {
@@ -57,19 +67,47 @@ public class FamilyController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateNewFamily(WelcomeVM wvm)
     {
-        FamilyUnit family = new() { FamilyName = wvm.NewFamily.FamilyName };
+        var family = new FamilyUnit()
+        {
+            FamilyName = wvm.NewFamily.FamilyName
+        };
         _context.Neighborhood.Add(family);
         await _context.SaveChangesAsync();
-        family = _context.Neighborhood.First(f => f.FamilyName.Equals(family.FamilyName));
-        CurrentUser.Family = family;
+        family = _context.Neighborhood.First(u => u.FamilyName.Equals(family.FamilyName));
+        CurrentUser.FamilyUnitId = family.FamilyUnitId;
+
         var result = await _userManager.UpdateAsync(CurrentUser);
         if (result.Succeeded)
         {
             _toast.Success($"Succesfully created the {family.FamilyName} Family");
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("FamilyRoom", "Family");
         }
         _toast.Error("Unable to create new family");
         return RedirectToAction("Index", "Home");
+    }
+
+    public async Task<IActionResult> DeleteFamily(int familyId)
+    {
+        var toDelete = await _context.Neighborhood.FindAsync(familyId);
+        if (toDelete is not null)
+        {
+            _context.Neighborhood.Remove(toDelete);
+            _context.SaveChanges();
+        }
+        return RedirectToAction("Index", "Home");
+    }
+
+    public async Task<IActionResult> SendFamilyMessage(FamilyMessage newMessage)
+    {
+        newMessage.SenderId = CurrentUser.Id;
+        newMessage.FamilyUnitId = CurrentUser.FamilyUnitId;
+        await _context.ChatTv.AddAsync(newMessage);
+        if (await _context.ChatTv.Where(m => m.FamilyUnitId.Equals(CurrentUser.FamilyUnitId)).CountAsync() > 25)
+        {
+            _context.ChatTv.Remove(await _context.ChatTv.LastAsync());
+        }
+        await _context.SaveChangesAsync();
+        return RedirectToAction("FamilyRoom");
     }
     #endregion
 }

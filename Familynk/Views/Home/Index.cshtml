@@ -13,6 +13,9 @@
         <div>
             @Html.DisplayFor(m => m.Neighborhood[i])
         </div>
+        <a asp-controller="Family" asp-action="DeleteFamily" asp-route-familyId="@Model.Neighborhood[i].FamilyUnitId">
+            <i class="bi bi-trash text-danger"></i>
+        </a>
     }
 
 </div>

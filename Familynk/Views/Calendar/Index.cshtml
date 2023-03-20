@@ -1,0 +1,48 @@
+@model FamilyCalendar
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+.ToList()
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SerializedCalendar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FamilyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FamilyName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Events.IsNullOrEmpty())
+        {
+
+            @foreach (var item in Model.Events!)
+            {
+                <tr>
+                    <td>
+                        @item.
+                    </td>
+                    <td>
+                        @Html.DisplayFor(item => item.FamilyId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(item => item.FamilyName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.FamilyEventId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.FamilyEventId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.FamilyEventId">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

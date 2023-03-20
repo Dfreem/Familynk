@@ -6,7 +6,7 @@ public class Scrap : ITaggable
     TimeSpan timeLimit = TimeSpan.Zero;
     public List<Image>? Images { get; set; }
     public string Title { get; set; } = "";
-    public List<Comment> Comments { get; set; } = new();
-    public int MemberTagId { get; set; }
-    public int SenderId { get; set; }
+    public List<Comment>? Comments { get; set; } = new();
+    public string? MemberTagId { get; set; }
+    public string? SenderId { get; set; }
 }

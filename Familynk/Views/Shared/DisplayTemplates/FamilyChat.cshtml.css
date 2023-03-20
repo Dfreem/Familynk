@@ -1,0 +1,32 @@
+﻿body {
+}
+
+.fam-chat {
+    background-color: cornsilk;
+    left: 60%;
+    top: 15%;
+    max-width: 500px;
+    min-width: 500px;
+    max-height: 30em;
+    min-height: 30em;
+    outline: 2px #48f5d2 solid;
+    border-radius: 2em;
+    padding: 1em;
+    overflow-y: scroll;
+    scroll-behavior:auto;
+    scroll-margin-block:1em;
+    scroll-snap-align:end;
+}
+
+.fam-msg {
+    margin: .8em;
+    width: fit-content;
+    height: fit-content;
+    background-color: lightgreen;
+    outline: 2px olive solid;
+    border-radius: 1em;
+}
+.fam-msg:nth-child(n) {
+    padding: .5em;
+
+}

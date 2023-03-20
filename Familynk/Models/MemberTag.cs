@@ -2,6 +2,7 @@
 
 public class MemberTag : ITaggable
 {
-    public int MemberTagId { get; set; }
-    public int SenderId { get; set; }
+    public int FamilyEventId { get; set; }
+    public string? SenderId { get; set; }
+    public string? MemberTagId { get; set; }
 }

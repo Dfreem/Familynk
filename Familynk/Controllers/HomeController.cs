@@ -28,7 +28,7 @@ public class HomeController : Controller
         WelcomeVM wvm = new()
         {
             Neighborhood = _context.Neighborhood
-                .Include(n => n.Members).ToList(),
+                .Include(n => n.Members.Where(m => m.FamilyUnitId.Equals(CurrentUser.FamilyUnitId))).ToList(),
             Visitor = CurrentUser
         };
         return View(wvm);

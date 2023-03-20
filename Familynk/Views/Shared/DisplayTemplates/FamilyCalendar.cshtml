@@ -1,0 +1,52 @@
+﻿@model FamilyCalendar
+@{
+    DateTime[] calDates = CalendarHelpers.GetDaySpan(14);
+
+}
+
+<div class="calendar">
+    <div class="calendar__opts">
+        @*<select asp-for="@calDates">
+                @foreach (var dt in calDates)
+                {
+                    <option>
+                        @dt.Day
+                    </option>
+                }
+            </select>*@
+
+        @*<select name="calendar__year" id="calendar__year">
+                <option>2017</option>
+                <option>2018</option>
+                <option>2019</option>
+                <option selected>2020</option>
+            </select>*@
+    </div>
+
+    <div class="calendar__body">
+        <div class="calendar__days">
+            @for (int i = 0; i < 7; i++)
+            {
+                <div>@calDates[i].DayOfWeek.ToString()[0..3]</div>
+            }
+
+        </div>
+
+        <div class="calendar__dates">
+
+            <div class="calendar__date"><span>@calDates[0].Day</span></div>
+            <div class="calendar__date calendar__date--selected calendar__date--first-date calendar__date--range-start"><span>@calDates[1].Day</span></div>
+            <div class="calendar__date calendar__date--selected"><span>@calDates[2].Day</span></div>
+            <div class="calendar__date calendar__date--selected"><span>@calDates[3].Day</span></div>
+            <div class="calendar__date calendar__date--selected"><span>@calDates[4].Day</span></div>
+            <div class="calendar__date calendar__date--selected calendar__date--last-date"><span>@calDates[5].Day</span></div>
+            <div class="calendar__date calendar__date--selected calendar__date--last-date calendar__date--range-end"><span>@calDates[6].Day</span></div>
+            @for (int i = 7; i < calDates.Length; i++)
+            {
+                <div class="calendar__date"><span>@calDates[i].Day</span></div>
+
+            }
+        </div>
+    </div>
+
+</div>

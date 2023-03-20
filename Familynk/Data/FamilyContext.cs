@@ -1,4 +1,4 @@
-﻿using Notification = Familynk.Models.Notification;
+﻿using Notification = Familynk.Models.Messages.Notification;
 
 namespace Familynk.Data;
 
@@ -12,7 +12,7 @@ public class FamilyContext : IdentityDbContext<FamilyMember>
     public DbSet<DirectMessage> DMs { get; set; }
     public DbSet<FamilyEvent> Events { get; set; }
     public DbSet<FamilyCalendar> FamilyCalendars { get; set; }
-    public DbSet<FamilyMessage> BulletinBoard { get; set; }
+    public DbSet<FamilyMessage> ChatTv { get; set; }
     public DbSet<FamilyUnit> Neighborhood { get; set; }
     public DbSet<HouseRules> Rules { get; set; }
     public DbSet<MagneticMessage> Refrigerator { get; set; }

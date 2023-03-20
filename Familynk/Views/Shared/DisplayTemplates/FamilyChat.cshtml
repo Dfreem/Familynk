@@ -1,0 +1,21 @@
+﻿@model FamilyChat
+@{
+}
+<link rel="stylesheet" href="FamilyChat.cshtml.css" />
+<div class="d-flex flex-column">
+    <div class="fam-chat">
+        @foreach (var message in Model.Messages)
+        {
+            <div class="fam-msg">
+                <div class="message-from">
+                    @message.SenderName
+                </div>
+                <div class="message-body">
+                    @message.Body
+                </div>
+            </div>
+        }
+    </div>
+
+
+</div>

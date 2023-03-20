@@ -1,6 +1,8 @@
 ﻿global using Familynk;
+global using Familynk.Util;
 global using Familynk.Interfaces;
 global using Familynk.Models;
+global using Familynk.Models.Messages;
 global using Familynk.ViewModels;
 global using Familynk.Controllers;
 global using Familynk.Data;

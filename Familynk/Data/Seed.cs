@@ -21,7 +21,7 @@ public static class Seed
             Name = "Devin",
             UserName = "dfreem987",
             PhoneNumber = "123-456-7890",
-            Family = freemanFam
+            FamilyUnitId = freemanFam.FamilyUnitId
         };
         FamilyMember testMember = new()
         {
@@ -31,10 +31,13 @@ public static class Seed
             EmailConfirmed = true,
             PhoneNumber = "555-555-5555",
             UserName = "TestUser123",
-            Family = freemanFam
+            FamilyUnitId = freemanFam.FamilyUnitId
         };
         var result = await userManager.CreateAsync(devin!, "!BassCase987");
         var result2 = await userManager.CreateAsync(testMember, "@Password123");
+        if (result.Succeeded) { freemanFam.Members.Add(devin); }
+        if (result2.Succeeded) { freemanFam.Members.Add(testMember); }
+
         if (await roleManager.FindByNameAsync("FamilyMember") is null)
         {
             await roleManager.CreateAsync(new IdentityRole("FamilyMember"));
@@ -44,9 +47,37 @@ public static class Seed
         {
             await roleManager.CreateAsync(new IdentityRole("HOH"));
         }
-        
+        context.Neighborhood.Update(freemanFam);
+        context.SaveChanges();
         await userManager.AddToRoleAsync(devin!, "FamilyMember");
         await userManager.AddToRoleAsync(devin!, "HOH");
         await userManager.AddToRoleAsync(testMember, "FamilyMember");
+
+        SeedChat(services);
+    }
+    public static void SeedChat(IServiceProvider services)
+    {
+        var context = services.GetRequiredService<FamilyContext>();
+        context.ChatTv.Add(new()
+        {
+            Body = "This is a new chat message",
+            SenderName = "Devin",
+            Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
+        });
+
+        context.ChatTv.Add(new()
+        {
+            Body = "Ok, sounds good",
+            SenderName = "some guy",
+            Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
+        });
+
+        context.ChatTv.Add(new()
+        {
+            Body = "This is cool",
+            SenderName = "Devin",
+            Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
+        });
+        context.SaveChanges();
     }
 }

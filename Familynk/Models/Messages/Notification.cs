@@ -1,4 +1,4 @@
-﻿namespace Familynk.Models;
+﻿namespace Familynk.Models.Messages;
 
 public class Notification : AppMessage
 {

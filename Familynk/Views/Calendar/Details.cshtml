@@ -1,0 +1,36 @@
+@model Familynk.Models.FamilyCalendar
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>FamilyCalendar</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SerializedCalendar)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SerializedCalendar)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FamilyId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FamilyId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FamilyName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FamilyName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.FamilyCalendarId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

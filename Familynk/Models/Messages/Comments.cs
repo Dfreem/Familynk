@@ -1,5 +1,4 @@
-﻿using System;
-namespace Familynk.Models;
+﻿namespace Familynk.Models.Messages;
 
 public class Comment : AppMessage
 {
