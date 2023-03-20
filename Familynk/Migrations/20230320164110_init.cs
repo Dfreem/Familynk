@@ -288,7 +288,9 @@ namespace Familynk.Migrations
                     AppMessageId = table.Column<int>(type: "int", nullable: false),
                     Body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FamilyEventId = table.Column<int>(type: "int", nullable: true)
+                    FamilyEventId = table.Column<int>(type: "int", nullable: true),
+                    SenderId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -438,21 +440,23 @@ namespace Familynk.Migrations
                 name: "DMs",
                 columns: table => new
                 {
-                    DirectMessageId = table.Column<int>(type: "int", nullable: false)
+                    AppMessageId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    RecipientId = table.Column<int>(type: "int", nullable: false),
+                    RecipientId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     FamilyMemberId = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FamilyMemberId1 = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AppMessageId = table.Column<int>(type: "int", nullable: false),
                     Body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FamilyEventId = table.Column<int>(type: "int", nullable: true)
+                    FamilyEventId = table.Column<int>(type: "int", nullable: true),
+                    SenderId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DMs", x => x.DirectMessageId);
+                    table.PrimaryKey("PK_DMs", x => x.AppMessageId);
                     table.ForeignKey(
                         name: "FK_DMs_AspNetUsers_FamilyMemberId",
                         column: x => x.FamilyMemberId,
@@ -477,7 +481,9 @@ namespace Familynk.Migrations
                     AppMessageId = table.Column<int>(type: "int", nullable: false),
                     Body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FamilyEventId = table.Column<int>(type: "int", nullable: true)
+                    FamilyEventId = table.Column<int>(type: "int", nullable: true),
+                    SenderId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -530,7 +536,9 @@ namespace Familynk.Migrations
                     AppMessageId = table.Column<int>(type: "int", nullable: false),
                     Body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FamilyEventId = table.Column<int>(type: "int", nullable: true)
+                    FamilyEventId = table.Column<int>(type: "int", nullable: true),
+                    SenderId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {

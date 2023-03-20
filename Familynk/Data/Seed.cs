@@ -16,6 +16,7 @@ public static class Seed
 
         FamilyMember devin = new()
         {
+            Id = "d1",
             Birthday = new(1987, 9, 30),
             Email = "dfreem987@gmail.com",
             Name = "Devin",
@@ -25,6 +26,7 @@ public static class Seed
         };
         FamilyMember testMember = new()
         {
+            Id = "t1",
             Name = "some guy",
             Birthday = DateTime.Now,
             Email = "test@test.com",
@@ -79,5 +81,17 @@ public static class Seed
             Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
         });
         context.SaveChanges();
+    }
+
+    public async static Task SeedDms(IServiceProvider services)
+    {
+        var context = services.GetRequiredService<FamilyContext>();
+        context.DMs.Add(new()
+        {
+            Body = " This is a test message",
+            RecipientId = "d1",
+            SenderId = "t1"
+        });
+        await context.SaveChangesAsync();
     }
 }

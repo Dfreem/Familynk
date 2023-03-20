@@ -1,26 +1,38 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<FamilyMember> SignInManager
-
+@inject IAuthorizationService auth
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-controller="Account" asp-action="Index">Hello @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-controller="Account" asp-action="Logout">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-action="Register" asp-controller="Account">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-action="Login" asp-controller="Account">Login</a>
-    </li>
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-controller="Account" asp-action="Index">Hello @User.Identity?.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-controller="Account" asp-action="Logout">
+                <button type="submit" class="nav-link btn btn-link text-warning">Logout</button>
+            </form>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-controller="Family" asp-action="FamilyRoom">Familly Room</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-controller="DirectMessage" asp-action="Index">DM's</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-action="Register" asp-controller="Account">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-action="Login" asp-controller="Account">Login</a>
+        </li>
+    }
+    @if (User.IsInRole("HOH"))
+    {
+        <li class="nav-item">
+            <a class=" nav-link text-info" asp-controller="Office" asp-action="Index">Office</a>
+        </li>
+    }
 </ul>
 

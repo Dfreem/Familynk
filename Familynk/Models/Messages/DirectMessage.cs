@@ -1,8 +1,8 @@
 ﻿namespace Familynk.Models.Messages;
 
+[PrimaryKey(nameof(AppMessageId))]
 public class DirectMessage : AppMessage
 {
-    public int DirectMessageId { get; set; }
-    public int RecipientId { get; set; }
+    public string RecipientId { get; set; } = default!;
     public override TimeSpan LifeSpan { get => TimeSpan.Zero; }
 }

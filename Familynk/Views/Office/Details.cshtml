@@ -1,0 +1,48 @@
+@model Familynk.Models.HouseRules
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>HouseRules</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MagneticMessageLifespan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MagneticMessageLifespan)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StickyNoteLifespan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StickyNoteLifespan)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FamilyMembersCustomizeKitchen)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FamilyMembersCustomizeKitchen)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FamilyMembersCreateEvents)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FamilyMembersCreateEvents)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FamilyMembersInviteOtherMembers)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FamilyMembersInviteOtherMembers)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.HouseRulesId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

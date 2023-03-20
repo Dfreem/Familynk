@@ -1,0 +1,78 @@
+@model DMVM
+@inject UserManager<FamilyMember> userManager
+@{
+    ViewData["Title"] = "Index";
+    string? sentBy;
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary btn-outline-success">Create New</a>
+</p>
+<table class="table">
+    <caption class="caption-top">Recieved Messages</caption>
+    <thead>
+        <tr>
+            <th>
+                Sent By
+            </th>
+            <th>
+                Message
+            </th>
+            <th>
+                DateSent
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.RecievedMessages)
+        {
+            sentBy = Model.Contacts.Find(c => c.Id.Equals(item.RecipientId))!.Name ?? "N/A";
+
+            <tr>
+                <td>
+                    @sentBy
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Body)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.AppMessageId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.AppMessageId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AppMessageId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table">
+    <caption class="caption-top">Sent Messages</caption>
+    <thead>
+        <tr>
+            <th>
+                Message
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.SentMessages)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Body)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.AppMessageId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.AppMessageId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AppMessageId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Familynk.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20230320030913_init")]
+    [Migration("20230320164110_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -297,6 +297,10 @@ namespace Familynk.Migrations
                     b.Property<int?>("ScrapId")
                         .HasColumnType("int");
 
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("CommentId");
 
                     b.HasIndex("ScrapId");
@@ -306,11 +310,8 @@ namespace Familynk.Migrations
 
             modelBuilder.Entity("Familynk.Models.Messages.DirectMessage", b =>
                 {
-                    b.Property<int>("DirectMessageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
                     b.Property<int>("AppMessageId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Body")
@@ -325,10 +326,15 @@ namespace Familynk.Migrations
                     b.Property<string>("FamilyMemberId1")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("RecipientId")
-                        .HasColumnType("int");
+                    b.Property<string>("RecipientId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.HasKey("DirectMessageId");
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("AppMessageId");
 
                     b.HasIndex("FamilyMemberId");
 
@@ -390,6 +396,10 @@ namespace Familynk.Migrations
                     b.Property<int?>("PictureImageId")
                         .HasColumnType("int");
 
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("MagneticMessageId");
 
                     b.HasIndex("PictureImageId");
@@ -414,6 +424,10 @@ namespace Familynk.Migrations
 
                     b.Property<string>("RecipientId")
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("NotificationId");
 
