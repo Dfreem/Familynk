@@ -34,6 +34,11 @@ for details on configuring this project to bundle and minify static web assets. 
     text-decoration: none;
 }
 
+a:any-link{
+    text-decoration: none;
+    color:inherit;
+}
+
 a.navbar-brand {
     white-space: normal;
     text-align: center;
@@ -46,18 +51,32 @@ a.navbar-brand {
     border-color: #1861ac;
 }
 
+a.add-btn {
+    color: var(--eggshell);
+    width: fit-content;
+    padding: .5em;
+    margin: .5em;
+    outline: 1px var(--rich-black) solid;
+    border-radius:15px;
+    background-color: var(--cambridge-blue);
+}
+
+a:any-link:hover {
+    color: ButtonHighlight;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #1b6ec2;
+/*    background-color: #1b6ec2;*/
     border-color: #1861ac;
 }
 
 .border-top {
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--sienna);
 }
 
 .border-bottom {
-    border-bottom: 1px solid var(--papaya-whip);
+    border-bottom: 1px solid var(--sienna);
 }
 
 .box-shadow {
@@ -141,3 +160,18 @@ li, ol, ul, dl {
     top: 15%;
 }
 /*#endregion*/
+
+
+/*#region Family Calendar*/
+
+.event-container {
+    opacity: 75%;
+    background-color: #e5e5e5;
+    width:fit-content;
+    height: fit-content;
+    padding: 10px;
+    margin: 1em;
+    border-radius: 2em;
+}
+
+/*endregion*/

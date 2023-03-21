@@ -3,6 +3,9 @@
     --border-radius: 34px;
     --accent-br: 15px;
     width: fit-content;
+    position: absolute;
+    margin-inline: 2em;
+    left: 5em;
 }
 
     .calendar select {

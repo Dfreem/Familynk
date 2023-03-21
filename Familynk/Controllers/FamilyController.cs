@@ -117,6 +117,22 @@ public class FamilyController : Controller
         _context.SaveChanges();
         return RedirectToAction("Index");
     }
+    [HttpGet]
+    public async Task<IActionResult> AddFamilyMember()
+    {
+        var currentFam = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
+        var fvm = new RegisterVM() { Family = currentFam };
+        return RedirectToPage("/Areas/Account/Manage");
+    }
+    [HttpPost]
+    public async Task<IActionResult> AddFamilyMember(RegisterVM fvm)
+    {
+        var fam = await _context.Neighborhood.FirstAsync(f => f.FamilyUnitId.Equals(fvm.Family!.FamilyUnitId));
+        fam.Members.Add((FamilyMember)fvm);
+        _context.Update(fam);
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index", "Calendar");
+    }
     #endregion
 }
 

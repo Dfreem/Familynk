@@ -1,48 +1,41 @@
 @model CalendarVM
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Model.FamilyName + " Family Calendar";
 }
 
-<h1>Family Calendar</h1>
-
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create" asp-controller="FamilyEvent">Add New Event</a>
+    <a class="add-btn" asp-action="Create" asp-controller="FamilyEvent">Add New Event</a>
 </p>
-<div class="container-sm mx-auto d-flex">
-    @Html.DisplayFor(model => model.GetCalendar)
-</div>
 
-    <table class="table table-sm">
+<div class="d-grid">
+    <div class="row d-flex flex-wrap">
+        <div class="container-sm col-4 d-flex">
+            @Html.DisplayFor(model => model.GetCalendar)
+        </div>
         @foreach (var item in Model.GetCalendar.Events!)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MemberTagId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SenderId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CalendarId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate)
-                </td>
-                <td>
+            <div class="event-container col-3">
+                <div class="event-item">
                     @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Details)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.FamilyEventId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.FamilyEventId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.FamilyEventId">Delete</a>
-                </td>
-            </tr>
+                </div>
+                <div class="event-item">
+                    @Html.DisplayFor(modelItem => item.EventDate)
+                </div>
+                <details>
+                    Details
+                    <summary>
+                        @Html.DisplayFor(modelItem => item.Details)
+                    </summary>
+                </details>
+                <div class="event-item">
+                    <a asp-action="Edit" asp-controller="FamilyEvent" asp-route-id="@item.FamilyEventId">Edit</a> |
+                    <a asp-action="Details" asp-controller="FamilyEvent" asp-route-id="@item.FamilyEventId">Details</a> |
+                    <a asp-action="Delete" asp-controller="FamilyEvent" asp-route-id="@item.FamilyEventId">Delete</a>
+                </div>
+            </div>
         }
-    </table>
-</table>
+    </div>
+</div>

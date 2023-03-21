@@ -1,6 +1,4 @@
 
-using Familynk.Repositories;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.SetMinimumLevel(LogLevel.Debug).ClearProviders();
@@ -63,7 +61,7 @@ using (var scope = app.Services.CreateScope())
     Seed.SeedUsersAsync(services).Wait();
     Seed.SeedChat(services);
     Seed.SeedDms(services).Wait();
-   
+    Seed.SeedCalendar(services);
 }
 
 app.Run();

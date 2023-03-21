@@ -10,12 +10,13 @@
 <div class="family-list opacity-90 d-flex flex-wrap flex-row">
     @for (int i = 0; i < Model.Neighborhood.Count; i++)
     {
-        <div>
+        <div class="card">
             @Html.DisplayFor(m => m.Neighborhood[i])
+            <a class=" mx-2" asp-controller="Family" asp-action="DeleteFamily" asp-route-familyId="@Model.Neighborhood[i].FamilyUnitId">
+                <i class="bi bi-trash text-danger text-info"></i>
+            </a>
+            <a class="mx-2" asp-action="AddFamilyMember" asp-controller="Family">Add a member</a>
         </div>
-        <a asp-controller="Family" asp-action="DeleteFamily" asp-route-familyId="@Model.Neighborhood[i].FamilyUnitId">
-            <i class="bi bi-trash text-danger"></i>
-        </a>
     }
 
 </div>
@@ -24,7 +25,7 @@
     <div class="form-floating w-50">
         <input asp-for="NewFamily.FamilyName" class="form-control" />
         <label asp-for="NewFamily.FamilyName">New Family Name</label>
-      
+
     </div>
     <input type="submit" value="create" class="btn btn-primary" />
 </form>

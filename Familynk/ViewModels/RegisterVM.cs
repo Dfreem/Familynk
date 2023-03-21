@@ -19,6 +19,7 @@ public class RegisterVM
     [PasswordPropertyText]
     [Compare("Password", ErrorMessage = "passwords must match")]
     public string ConfirmPassword { get; set; } = default!;
+    public FamilyUnit? Family { get; set; } = default!;
 
     /// <summary>
     /// The programmer should be aware that the FamilyMember returned by this operator is unregistered, does not belong to a family unit and has no id's.
@@ -31,7 +32,8 @@ public class RegisterVM
             Name = rvm.Name,
             UserName = rvm.UserName,
             Email = rvm.Email,
-            PhoneNumber = rvm.PhoneNumber
+            PhoneNumber = rvm.PhoneNumber,
+            FamilyUnitId = rvm.Family?.FamilyUnitId
         };
     }
 }
