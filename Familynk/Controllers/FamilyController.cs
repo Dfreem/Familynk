@@ -109,6 +109,14 @@ public class FamilyController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction("FamilyRoom");
     }
+
+    public async Task<IActionResult> DeleteFamilyMessage(int familyMessageId)
+    {
+        var toDelete = await _context.ChatTv.FindAsync(familyMessageId);
+        _context.ChatTv.Remove(toDelete!);
+        _context.SaveChanges();
+        return RedirectToAction("Index");
+    }
     #endregion
 }
 

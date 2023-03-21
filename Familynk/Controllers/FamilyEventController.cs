@@ -3,18 +3,29 @@ namespace Familynk.Controllers;
 public class FamilyEventController : Controller
 {
     private readonly FamilyContext _context;
+    private readonly IServiceProvider _services;
+    private readonly SignInManager<FamilyMember> _signInManager;
+    private readonly UserManager<FamilyMember> _userManager;
+    public FamilyMember CurrentUser { get; set; }
 
-    public FamilyEventController(FamilyContext context)
+
+
+    public FamilyEventController(FamilyContext context, IServiceProvider services)
     {
         _context = context;
+        _services = services;
+        _signInManager = services.GetRequiredService<SignInManager<FamilyMember>>();
+        _userManager = _signInManager.UserManager;
+        CurrentUser = _userManager.FindByNameAsync(_signInManager.Context.User!.Identity!.Name!)
+        .Result!;
     }
-
     // GET: Event
     public async Task<IActionResult> Index()
     {
-          return _context.Events != null ? 
-                      View(await _context.Events.ToListAsync()) :
-                      Problem("Entity set 'FamilyContext.Events'  is null.");
+        var fam = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
+        return _context.Events != null ?
+                    View(await _context.Events.Where(e => e.CalendarId.Equals(fam!.GetCalendar.FamilyCalendarId)).Include(c => c.Comments).ToListAsync()) :
+                    Problem("Entity set 'FamilyContext.Events'  is null.");
     }
 
     // GET: Event/Details/5
@@ -38,7 +49,8 @@ public class FamilyEventController : Controller
     // GET: Event/Create
     public IActionResult Create()
     {
-        return View();
+        EventVm evm = new() { Creator = CurrentUser };
+        return View(evm);
     }
 
     // POST: Event/Create
@@ -46,13 +58,22 @@ public class FamilyEventController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("FamilyEventId,MemberTagId,SenderId,CalendarId,EventDate,Title,Details")] FamilyEvent familyEvent)
+    public async Task<IActionResult> Create([Bind("Title, EventDate, Details, Creator")] EventVm familyEvent)
     {
-        if (ModelState.IsValid)
+        if (ModelState.GetFieldValidationState("Title") == ModelValidationState.Valid)
         {
-            _context.Add(familyEvent);
+            FamilyEvent famEvent = new()
+            {
+
+                Details = familyEvent.Details,
+                EventDate = familyEvent.EventDate,
+                SenderId = CurrentUser.Id,
+                Title = familyEvent.Title
+
+            };
+            _context.Events.Add(famEvent);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), "Calendar");
         }
         return View(familyEvent);
     }
@@ -140,13 +161,13 @@ public class FamilyEventController : Controller
         {
             _context.Events.Remove(familyEvent);
         }
-        
+
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool FamilyEventExists(int id)
     {
-      return (_context.Events?.Any(e => e.FamilyEventId == id)).GetValueOrDefault();
+        return (_context.Events?.Any(e => e.FamilyEventId == id)).GetValueOrDefault();
     }
 }

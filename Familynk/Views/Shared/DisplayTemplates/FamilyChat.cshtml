@@ -13,6 +13,7 @@
                 <div class="message-body">
                     @message.Body
                 </div>
+                <a asp-action="DeleteFamilyMessage" asp-controller="Family" asp-route-familyMessageId="@message.AppMessageId"></a>
             </div>
         }
     </div>

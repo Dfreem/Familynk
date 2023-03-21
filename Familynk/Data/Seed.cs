@@ -60,6 +60,8 @@ public static class Seed
     public static void SeedChat(IServiceProvider services)
     {
         var context = services.GetRequiredService<FamilyContext>();
+        if (!context.ChatTv.IsNullOrEmpty())
+        { return; }
         context.ChatTv.Add(new()
         {
             Body = "This is a new chat message",
@@ -81,11 +83,16 @@ public static class Seed
             Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
         });
         context.SaveChanges();
+
+        
     }
 
     public async static Task SeedDms(IServiceProvider services)
     {
         var context = services.GetRequiredService<FamilyContext>();
+
+        if (!context.DMs.IsNullOrEmpty())
+        { return; }
         context.DMs.Add(new()
         {
             Body = " This is a test message",
@@ -93,5 +100,20 @@ public static class Seed
             SenderId = "t1"
         });
         await context.SaveChangesAsync();
+    }
+
+    public static void SeedCalendar(IServiceProvider services)
+    {
+        FamilyContext context = services.GetRequiredService<FamilyContext>();
+        var family = context.Neighborhood.First(f => f.FamilyName.Equals("Freeman"));
+        family.GetCalendar.Events?.Add(new()
+        {
+            Details = "this is for testing",
+            Title = "Test Event",
+            EventDate = DateTime.Now,
+            SenderId = "d1"
+        });
+        context.Neighborhood.Update(family);
+        context.SaveChanges();
     }
 }
