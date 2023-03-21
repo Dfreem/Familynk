@@ -1,4 +1,4 @@
-﻿global using Familynk;
+﻿global using Familynk.Repositories;
 global using Familynk.Util;
 global using Familynk.Interfaces;
 global using Familynk.Models;

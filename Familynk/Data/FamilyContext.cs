@@ -8,6 +8,10 @@ public class FamilyContext : IdentityDbContext<FamilyMember>
         : base(options)
     {
     }
+    public FamilyContext()
+    {
+
+    }
 
     public DbSet<DirectMessage> DMs { get; set; }
     public DbSet<FamilyEvent> Events { get; set; }

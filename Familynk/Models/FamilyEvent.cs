@@ -13,6 +13,7 @@ public class FamilyEvent : ITaggable
     public string Title { get; set; } = default!;
     [MaxLength(300, ErrorMessage = "please limit details to less than 300 characters")]
     public string? Details { get; set; } = default;
-    
+    public List<Comment> Comments { get; set; } = new();
+
 }
 

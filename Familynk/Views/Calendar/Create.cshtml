@@ -13,14 +13,7 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SerializedCalendar" class="control-label"></label>
-                <input asp-for="SerializedCalendar" class="form-control" />
-                <span asp-validation-for="SerializedCalendar" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FamilyId" class="control-label"></label>
-                <input asp-for="FamilyId" class="form-control" />
-                <span asp-validation-for="FamilyId" class="text-danger"></span>
+                <input asp-for="FamilyId" type="hidden" value="@Model.FamilyId" />
             </div>
             <div class="form-group">
                 <label asp-for="FamilyName" class="control-label"></label>
@@ -28,12 +21,51 @@
                 <span asp-validation-for="FamilyName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Details</th>
+            <th>StartDate</th>
+            <th>Comments</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
 
+            @foreach (var e in Model.Events!)
+            {
+                <td>@e.Title</td>
+                <td>@e.Details</td>
+                <td>@e.EventDate</td>
+                <td>
+                    @foreach (var item in e.Comments)
+                    {
+                        <span>
+                            item.Body;
+                        </span><br />
+                    }
+
+                </td>
+            }
+        </tr>
+    </tbody>
+</table>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

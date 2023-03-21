@@ -7,10 +7,9 @@ public class FamilyMessage : AppMessage, ITaggable
     public override TimeSpan LifeSpan { get => new(7, 0, 0, 0); }
     public string? MemberTagId { get; set; }
     [ForeignKey(nameof(FamilyMember))]
-    public string? SenderId { get; set; }
     public string SenderName { get; set; } = "";
     [ForeignKey(nameof(FamilyUnit))]
-    public int FamilyUnitId { get; set; }
+    public int? FamilyUnitId { get; set; }
     [Required]
     public FamilyUnit Family { get; set; } = default!;
 }

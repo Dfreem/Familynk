@@ -13,22 +13,29 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="FamilyCalendarId" />
-            <div class="form-floating">
-                <label asp-for="SerializedCalendar" class="control-label"></label>
-                <input asp-for="SerializedCalendar" class="form-control" />
-                <span asp-validation-for="SerializedCalendar" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="FamilyId" class="control-label"></label>
+                <input asp-for="FamilyId" class="form-control" />
+                <span asp-validation-for="FamilyId" class="text-danger"></span>
             </div>
-
-            <input asp-for="FamilyCalendarId" type="hidden" value="@Model.FamilyCalendarId" />
-
-            <div class="form-floating">
+            <div class="form-group">
                 <label asp-for="FamilyName" class="control-label"></label>
                 <input asp-for="FamilyName" class="form-control" />
                 <span asp-validation-for="FamilyName" class="text-danger"></span>
             </div>
-            <input asp-for="Events" class="form-contorl" />
-            @Html.EditorFor(model => model.Events)
-            <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
         </form>
     </div>
 </div>

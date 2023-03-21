@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Familynk.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class azure : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -208,7 +208,7 @@ namespace Familynk.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FamilyUnitId = table.Column<int>(type: "int", maxLength: 20, nullable: false),
+                    FamilyUnitId = table.Column<int>(type: "int", maxLength: 20, nullable: true),
                     Birthday = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -242,8 +242,7 @@ namespace Familynk.Migrations
                         name: "FK_AspNetUsers_Neighborhood_FamilyUnitId",
                         column: x => x.FamilyUnitId,
                         principalTable: "Neighborhood",
-                        principalColumn: "FamilyUnitId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "FamilyUnitId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -255,15 +254,15 @@ namespace Familynk.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     MemberTagId = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    SenderId = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     SenderName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FamilyUnitId = table.Column<int>(type: "int", nullable: false),
                     AppMessageId = table.Column<int>(type: "int", nullable: false),
                     Body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FamilyEventId = table.Column<int>(type: "int", nullable: true)
+                    FamilyEventId = table.Column<int>(type: "int", nullable: true),
+                    SenderId = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -289,12 +288,17 @@ namespace Familynk.Migrations
                     Body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FamilyEventId = table.Column<int>(type: "int", nullable: true),
-                    SenderId = table.Column<string>(type: "longtext", nullable: false)
+                    SenderId = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.CommentId);
+                    table.ForeignKey(
+                        name: "FK_Comments_Events_FamilyEventId",
+                        column: x => x.FamilyEventId,
+                        principalTable: "Events",
+                        principalColumn: "FamilyEventId");
                     table.ForeignKey(
                         name: "FK_Comments_Scraps_ScrapId",
                         column: x => x.ScrapId,
@@ -451,7 +455,7 @@ namespace Familynk.Migrations
                     Body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FamilyEventId = table.Column<int>(type: "int", nullable: true),
-                    SenderId = table.Column<string>(type: "longtext", nullable: false)
+                    SenderId = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -482,7 +486,7 @@ namespace Familynk.Migrations
                     Body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FamilyEventId = table.Column<int>(type: "int", nullable: true),
-                    SenderId = table.Column<string>(type: "longtext", nullable: false)
+                    SenderId = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -537,7 +541,7 @@ namespace Familynk.Migrations
                     Body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FamilyEventId = table.Column<int>(type: "int", nullable: true),
-                    SenderId = table.Column<string>(type: "longtext", nullable: false)
+                    SenderId = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -597,6 +601,11 @@ namespace Familynk.Migrations
                 name: "IX_ChatTv_FamilyUnitId",
                 table: "ChatTv",
                 column: "FamilyUnitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_FamilyEventId",
+                table: "Comments",
+                column: "FamilyEventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ScrapId",
@@ -697,9 +706,6 @@ namespace Familynk.Migrations
                 name: "DMs");
 
             migrationBuilder.DropTable(
-                name: "Events");
-
-            migrationBuilder.DropTable(
                 name: "Notifications");
 
             migrationBuilder.DropTable(
@@ -710,6 +716,9 @@ namespace Familynk.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Images");

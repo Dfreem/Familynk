@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
     <PackageReference Include="bootstrap" Version="5.2.3" />
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
+    <PackageReference Include="Moq" Version="4.18.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,26 +46,24 @@
     <Folder Include="Util\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Repositories\IFamilyRepo.cs" />
-    <Compile Remove="Repositories\FamilyRepository.cs" />
     <Compile Remove="Models\GreetingsMat.cs" />
     <Compile Remove="Data\ImageCollection.cs" />
+    <Compile Remove="Usings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
     <Content Remove="ViewModels\RegisterVM.cshtml" />
     <Content Remove="Views\Shared\_FamilyCalanderPartial.cshtml" />
-    <Content Remove="Views\Calendar\Edit.cshtml" />
-    <Content Remove="Views\Calendar\Delete.cshtml" />
-    <Content Remove="Views\Calendar\Create.cshtml" />
-    <Content Remove="Views\Calendar\Index.cshtml" />
-    <Content Remove="Views\Calendar\Details.cshtml" />
     <Content Remove="wwwroot\css\FamilyUnit.css" />
     <Content Remove="wwwroot\css\FamilyCalendar.cshtml.css" />
+    <Content Remove="wwwroot\Usings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\images\livingRoom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="wwwroot\Usings.cs" />
   </ItemGroup>
 </Project>

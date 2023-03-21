@@ -24,11 +24,10 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-
         WelcomeVM wvm = new()
         {
             Neighborhood = _context.Neighborhood
-                .Include(n => n.Members.Where(m => m.FamilyUnitId.Equals(CurrentUser.FamilyUnitId))).ToList(),
+                .Include(n => n.Members).ToList(),
             Visitor = CurrentUser
         };
         return View(wvm);

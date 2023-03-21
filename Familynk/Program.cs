@@ -1,8 +1,10 @@
 
+using Familynk.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.SetMinimumLevel(LogLevel.Debug).ClearProviders();
-string connection = builder.Configuration.GetConnectionString("MYSQL_CONNECTION")!;
+string connection = builder.Configuration.GetConnectionString("AZURE_CONNECTION")!;
 
 // Add services to the container.
 builder.Services.AddDbContext<FamilyContext>(options =>
@@ -16,6 +18,8 @@ builder.Services.AddIdentity<FamilyMember, IdentityRole>(options =>
         //.AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<FamilyContext>()
         .AddDefaultTokenProviders();
+
+builder.Services.AddSingleton<IFamilyRepo,FakeFamilyRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

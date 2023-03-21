@@ -101,7 +101,7 @@ namespace Familynk.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("FamilyUnitId")
+                    b.Property<int?>("FamilyUnitId")
                         .HasMaxLength(20)
                         .HasColumnType("int");
 
@@ -295,10 +295,11 @@ namespace Familynk.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SenderId")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("CommentId");
+
+                    b.HasIndex("FamilyEventId");
 
                     b.HasIndex("ScrapId");
 
@@ -328,7 +329,6 @@ namespace Familynk.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("SenderId")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("AppMessageId");
@@ -355,7 +355,8 @@ namespace Familynk.Migrations
                     b.Property<int?>("FamilyEventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FamilyUnitId")
+                    b.Property<int?>("FamilyUnitId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("MemberTagId")
@@ -394,7 +395,6 @@ namespace Familynk.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SenderId")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("MagneticMessageId");
@@ -423,7 +423,6 @@ namespace Familynk.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("SenderId")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("NotificationId");
@@ -615,9 +614,7 @@ namespace Familynk.Migrations
                 {
                     b.HasOne("Familynk.Models.FamilyUnit", null)
                         .WithMany("Members")
-                        .HasForeignKey("FamilyUnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FamilyUnitId");
                 });
 
             modelBuilder.Entity("Familynk.Models.FamilyUnit", b =>
@@ -671,6 +668,10 @@ namespace Familynk.Migrations
 
             modelBuilder.Entity("Familynk.Models.Messages.Comment", b =>
                 {
+                    b.HasOne("Familynk.Models.FamilyEvent", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("FamilyEventId");
+
                     b.HasOne("Familynk.Models.Scrap", null)
                         .WithMany("Comments")
                         .HasForeignKey("ScrapId");
@@ -777,6 +778,11 @@ namespace Familynk.Migrations
             modelBuilder.Entity("Familynk.Models.FamilyCalendar", b =>
                 {
                     b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("Familynk.Models.FamilyEvent", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("Familynk.Models.FamilyMember", b =>

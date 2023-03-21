@@ -1,21 +1,28 @@
 @model FamilyCalendar
+
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
-.ToList()
+
+<p>
+    <a asp-action="Create" asp-controller="Calendar">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SerializedCalendar)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FamilyId)
+                @Html.DisplayNameFor(model => model.Events)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FamilyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
             </th>
             <th></th>
         </tr>
@@ -28,13 +35,16 @@
             {
                 <tr>
                     <td>
-                        @item.
+                        @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
-                        @Html.DisplayFor(item => item.FamilyId)
+                        @Html.DisplayFor(modelItem => item.Details)
                     </td>
                     <td>
-                        @Html.DisplayFor(item => item.FamilyName)
+                        @Html.DisplayFor(modelItem => item.Comments)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventDate)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.FamilyEventId">Edit</a> |

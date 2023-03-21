@@ -102,36 +102,6 @@ namespace Familynk.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult LogInAsync(string returnUrl = "")
-        {
-            var model = new LoginVM { ReturnUrl = returnUrl };
-            return View(model);
-        }
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> LogInAsync(LoginVM model)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _signinManager.PasswordSignInAsync(model.UserName, model.Password, isPersistent: model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    _toast.Success("Successfully Logged in as " + model.UserName);
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    { return Redirect(model.ReturnUrl); }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                _toast.Error("Unable to Sign in\n" + result.ToString());
-            }
-            ModelState.AddModelError("", "Invalid username/password.");
-            return View(model);
-        }
-
         [HttpPost]
         public async Task<IActionResult> ChangeUserInfo(UserProfileVM uvm)
         {
