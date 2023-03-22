@@ -218,9 +218,6 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Bytes")
-                        .HasColumnType("longblob");
-
                     b.Property<string>("FileExtension")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -441,7 +438,7 @@ namespace Familynk.Migrations
                     b.Property<string>("MemberTagId")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ScrapBookId")
+                    b.Property<int>("ScrapBookId")
                         .HasColumnType("int");
 
                     b.Property<string>("SenderId")
@@ -721,7 +718,9 @@ namespace Familynk.Migrations
                 {
                     b.HasOne("Familynk.Models.ScrapBook", null)
                         .WithMany("Entries")
-                        .HasForeignKey("ScrapBookId");
+                        .HasForeignKey("ScrapBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -51,7 +51,7 @@ a.navbar-brand {
     border-color: #1861ac;
 }
 
-a.add-btn {
+.add-btn {
     color: var(--eggshell);
     width: fit-content;
     padding: .5em;
@@ -125,9 +125,10 @@ li, ol, ul, dl {
 
 .card {
     opacity: .9;
-    margin: 2em;
+    margin: 1em;
+    max-width:fit-content;
     background-color: var(--eggshell);
-    backdrop-filter: contrast(.8) opacity(.7);
+    backdrop-filter: contrast(.8), drop-shadow(5px);
 }
 
 .card-header, .card-body {

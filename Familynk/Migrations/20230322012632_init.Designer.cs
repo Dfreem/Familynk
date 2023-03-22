@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Familynk.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20230321050349_azure")]
-    partial class azure
+    [Migration("20230322012632_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -220,9 +220,6 @@ namespace Familynk.Migrations
                     b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<byte[]>("Bytes")
-                        .HasColumnType("longblob");
 
                     b.Property<string>("FileExtension")
                         .IsRequired()
@@ -444,7 +441,7 @@ namespace Familynk.Migrations
                     b.Property<string>("MemberTagId")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ScrapBookId")
+                    b.Property<int>("ScrapBookId")
                         .HasColumnType("int");
 
                     b.Property<string>("SenderId")
@@ -724,7 +721,9 @@ namespace Familynk.Migrations
                 {
                     b.HasOne("Familynk.Models.ScrapBook", null)
                         .WithMany("Entries")
-                        .HasForeignKey("ScrapBookId");
+                        .HasForeignKey("ScrapBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

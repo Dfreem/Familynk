@@ -26,6 +26,7 @@
     <PackageReference Include="bootstrap" Version="5.2.3" />
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
     <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="popper.js" Version="1.16.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +45,7 @@
     <Folder Include="Views\Family\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="Util\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\GreetingsMat.cs" />
@@ -57,6 +59,7 @@
     <Content Remove="wwwroot\css\FamilyUnit.css" />
     <Content Remove="wwwroot\css\FamilyCalendar.cshtml.css" />
     <Content Remove="wwwroot\Usings.cs" />
+    <Content Remove="wwwroot\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\images\livingRoom.png">

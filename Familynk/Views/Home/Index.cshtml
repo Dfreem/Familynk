@@ -2,30 +2,41 @@
 @{
     ViewData["Title"] = "Neighborhood";
     Model.NewFamily = new();
+    string toAdd = "";
+    int fid = 0;
 }
 <h1>
     Welcome to the Neighborhood!
 </h1>
 <br />
-<div class="family-list opacity-90 d-flex flex-wrap flex-row">
+<div class="family-list d-flex flex-wrap flex-row">
     @for (int i = 0; i < Model.Neighborhood.Count; i++)
     {
         <div class="card">
             @Html.DisplayFor(m => m.Neighborhood[i])
-            <a class=" mx-2" asp-controller="Family" asp-action="DeleteFamily" asp-route-familyId="@Model.Neighborhood[i].FamilyUnitId">
-                <i class="bi bi-trash text-danger text-info"></i>
-            </a>
-            <a class="mx-2" asp-action="AddFamilyMember" asp-controller="Family">Add a member</a>
+            <p class="muted">
+                <a class=" mx-2" data-bs-toggle="tooltip" data-bs-title="Delete Family" asp-controller="Family" asp-action="DeleteFamily" asp-route-familyId="@Model.Neighborhood[i].FamilyUnitId">
+                    <i class="bi bi-trash text-danger text-info"></i>Delete Family
+                </a>
+            </p>
+
+            <form class="mx-2" asp-action="AddFamilyMember" asp-route-toAdd="@toAdd" asp-controller="Family">
+                <div class="form-floating">
+                    <input type="hidden" value="@Model.Neighborhood[i].FamilyUnitId" asp-for="@fid" />
+                    <label class="w-50 flex-wrap d-flex">add a member</label>
+                    <input asp-for="@toAdd" class="form-control" placeholder="Enter a Username" />
+                    <input type="submit" value="Add a member" class="btn add-btn"/>
+                </div>
+            </form>
         </div>
     }
 
 </div>
-
 <form method="post" asp-action="CreateNewFamily" asp-controller="Family">
-    <div class="form-floating w-50">
+    <div class="form-floating mx-auto w-50">
         <input asp-for="NewFamily.FamilyName" class="form-control" />
-        <label asp-for="NewFamily.FamilyName">New Family Name</label>
+        <label asp-for="NewFamily.FamilyName">Enter a Family Name to create a family</label>
+        <input type="submit" value="create" class="btn btn-primary form-control" />
 
     </div>
-    <input type="submit" value="create" class="btn btn-primary" />
 </form>

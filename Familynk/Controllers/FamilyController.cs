@@ -63,7 +63,6 @@ public class FamilyController : Controller
 
     #region Non-View Methods
 
-    // TODO fix adding both seed members to all new families.
     [HttpPost]
     public async Task<IActionResult> CreateNewFamily(WelcomeVM wvm)
     {
@@ -117,21 +116,35 @@ public class FamilyController : Controller
         _context.SaveChanges();
         return RedirectToAction("Index");
     }
-    [HttpGet]
-    public async Task<IActionResult> AddFamilyMember()
-    {
-        var currentFam = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
-        var fvm = new RegisterVM() { Family = currentFam };
-        return RedirectToPage("/Areas/Account/Manage");
-    }
+
+    // TODO send invite to family instead of automatically adding them
     [HttpPost]
-    public async Task<IActionResult> AddFamilyMember(RegisterVM fvm)
+    public async Task<IActionResult> AddFamilyMember(string toAdd, int fid)
     {
-        var fam = await _context.Neighborhood.FirstAsync(f => f.FamilyUnitId.Equals(fvm.Family!.FamilyUnitId));
-        fam.Members.Add((FamilyMember)fvm);
-        _context.Update(fam);
-        await _context.SaveChangesAsync();
-        return RedirectToAction("Index", "Calendar");
+        FamilyMember? retreivedMember = await _userManager.FindByNameAsync(toAdd);
+        var addingTo = await _context.Neighborhood.FindAsync(fid);
+        if (toAdd is null)
+        {
+            ModelState.AddModelError(nameof(toAdd), "please enter a valid username");
+        }
+        else if (retreivedMember is null)
+        {
+            ModelState.AddModelError(nameof(toAdd), "Could not find Family member. Is the family member registered?");
+        }
+        else if (addingTo is null)
+        {
+            ModelState.AddModelError(nameof(addingTo), "Could not find Family");
+        }
+        else
+        {
+            retreivedMember.FamilyUnitId = addingTo.FamilyUnitId;
+            addingTo.Members.Add(retreivedMember);
+            _context.Neighborhood.Update(addingTo);
+            _context.SaveChanges();
+
+            await _userManager.UpdateAsync(retreivedMember);
+        }
+        return RedirectToAction("Index", "Home");
     }
     #endregion
 }

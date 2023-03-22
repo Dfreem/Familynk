@@ -111,7 +111,7 @@ namespace Familynk.Controllers
                 _toast.Error("I unno what hpppund");
                 return RedirectToAction("Index");
             }
-            if (uvm.UserName != "No UserName" && uvm.UserName != user.UserName)
+            if (uvm.UserName !is not null && uvm.UserName != user.UserName)
             {
                 user.UserName = uvm.UserName;
                 user.NormalizedUserName = uvm.UserName.ToUpper();

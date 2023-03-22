@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Familynk.Migrations
 {
     /// <inheritdoc />
-    public partial class azure : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -183,13 +183,13 @@ namespace Familynk.Migrations
                 {
                     ScrapId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ScrapBookId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MemberTagId = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     SenderId = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ScrapBookId = table.Column<int>(type: "int", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -198,7 +198,8 @@ namespace Familynk.Migrations
                         name: "FK_Scraps_ScrapBooks_ScrapBookId",
                         column: x => x.ScrapBookId,
                         principalTable: "ScrapBooks",
-                        principalColumn: "ScrapBookId");
+                        principalColumn: "ScrapBookId",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -318,7 +319,6 @@ namespace Familynk.Migrations
                     FileExtension = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     width = table.Column<int>(type: "int", nullable: true),
-                    Bytes = table.Column<byte[]>(type: "longblob", nullable: true),
                     ScrapBookId = table.Column<int>(type: "int", nullable: true),
                     ScrapId = table.Column<int>(type: "int", nullable: true)
                 },
