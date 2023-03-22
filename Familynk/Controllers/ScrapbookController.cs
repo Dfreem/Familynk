@@ -37,9 +37,19 @@ namespace Familynk.Controllers
         // GET: Scrapbook
         public async Task<IActionResult> Index()
         {
-            if (Book is null) { Book = new(); }
+            var fam = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
+            if (Book is null)  // TODO change this
+            {
+                Book = new()
+                {
+                    Entries = _context.Scraps
+                        .ToList()
+                        .FindAll((Scrap obj) =>
+                            obj.ScrapBookId
+                            .Equals(fam!.FamilyScraps.ScrapBookId))
+                };
+            }
 
-            Book!.Entries = _context.Scraps.Where(s => s.ScrapBookId.Equals(Book.ScrapBookId)).ToList();
             ScrapBookVM svm = new() { Book = Book, Family = await _context.Neighborhood.FirstAsync(f => f.FamilyUnitId.Equals(CurrentUser.FamilyUnitId)) };
             return View(svm);
         }
@@ -72,12 +82,12 @@ namespace Familynk.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Book, FileUpload")]ScrapBookVM svm)
+        public async Task<IActionResult> Create([Bind("Book, FileUpload")] ScrapBookVM svm)
         {
 
             if (svm.FileUpload is not null)
             {
-                svm.FileUpload.OpenReadStream().CopyToFile("~/uploads/" + svm.FileUpload.FileName);
+                svm.FileUpload.OpenReadStream().CopyToFile("./uploads/" + svm.FileUpload.FileName);
                 string[] getExtention = svm.FileUpload.FileName.Split('.');
                 Image image = new()
                 {
@@ -85,6 +95,11 @@ namespace Familynk.Controllers
                     FileExtension = getExtention[^1]
                 };
                 await _context.Images.AddAsync(image);
+                var fam = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
+                var book = await _context.ScrapBooks.FindAsync(fam!.FamilyScraps.ScrapBookId)??new ScrapBook();
+                book.Entries = _context.Scraps.Where((Scrap arg1, int arg2) => arg1.ScrapBookId.Equals(fam.FamilyScraps.ScrapBookId)).ToList();
+                book!.Entries!.Add(svm.NewScrap);
+                _context.Update(book);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
