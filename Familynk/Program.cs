@@ -6,7 +6,10 @@ string connection = builder.Configuration.GetConnectionString("AZURE_CONNECTION"
 
 // Add services to the container.
 builder.Services.AddDbContext<FamilyContext>(options =>
-    options.UseMySql(connection, MySqlServerVersion.Parse("mysql-8.0")));
+{
+    options.UseMySql(connection, MySqlServerVersion.Parse("mysql-8.0"));
+    options.EnableSensitiveDataLogging();
+});
 //builder.Services.AddTransient<ISiteRepository, SiteRepository>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddHttpClient();

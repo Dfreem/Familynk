@@ -38,19 +38,17 @@ namespace Familynk.Controllers
         public async Task<IActionResult> Index()
         {
             var fam = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
-            if (Book is null)  // TODO change this
-            {
-                Book = new()
-                {
-                    Entries = _context.Scraps
-                        .ToList()
-                        .FindAll((Scrap obj) =>
-                            obj.ScrapBookId
-                            .Equals(fam!.FamilyScraps.ScrapBookId))
-                };
-            }
+            // get scrapbook and Entries related to the current user.
+            Book = await _context.ScrapBooks.Include(s => s.Entries).FirstAsync(sb => sb.FamilyUnitId.Equals(CurrentUser.FamilyUnitId));
 
-            ScrapBookVM svm = new() { Book = Book, Family = await _context.Neighborhood.FirstAsync(f => f.FamilyUnitId.Equals(CurrentUser.FamilyUnitId)) };
+            // get saved scraps for the user and save as entries in the scrapbook.
+            Book.Entries = _context.Scraps.Include(s => s.Images).Where(sc => sc.ScrapBookId.Equals(Book.ScrapBookId)).ToList();
+            ScrapBookVM svm = new()
+            {
+                Book = Book,
+                Family = fam!
+            };
+
             return View(svm);
         }
 
@@ -73,37 +71,77 @@ namespace Familynk.Controllers
         }
 
         // GET: Scrapbook/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            ScrapBookVM svm = new();
+            var fam = await _context.Neighborhood
+                .Include(n => n.FamilyScraps)
+                .ThenInclude(book => book.Entries)
+                .Where(s => s.FamilyUnitId
+                    .Equals(CurrentUser.FamilyUnitId))
+                .FirstOrDefaultAsync(f => f.FamilyUnitId
+                    .Equals(CurrentUser.FamilyUnitId));
+            svm.Family = fam ?? new();
+            return View(svm);
         }
 
         // POST: Scrapbook/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Book, FileUpload")] ScrapBookVM svm)
+        public async Task<IActionResult> Create([Bind("NewScrap, FileUpload")] ScrapBookVM svm)
         {
-
-            if (svm.FileUpload is not null)
+            // saving image to local filesystem
+            string acceptsFiletypes = "png, jpg, webp";
+            foreach (var file in svm.FileUpload)
             {
-                svm.FileUpload.OpenReadStream().CopyToFile("./uploads/" + svm.FileUpload.FileName);
-                string[] getExtention = svm.FileUpload.FileName.Split('.');
-                Image image = new()
+                // only allow image files, check the file extensions.
+                if (svm.FileUpload is null || !acceptsFiletypes.Split(',')
+                        .Contains(file.FileName.Split('.')[^1]))
                 {
-                    FileName = svm.FileUpload.FileName,
-                    FileExtension = getExtention[^1]
-                };
-                await _context.Images.AddAsync(image);
-                var fam = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
-                var book = await _context.ScrapBooks.FindAsync(fam!.FamilyScraps.ScrapBookId)??new ScrapBook();
-                book.Entries = _context.Scraps.Where((Scrap arg1, int arg2) => arg1.ScrapBookId.Equals(fam.FamilyScraps.ScrapBookId)).ToList();
-                book!.Entries!.Add(svm.NewScrap);
-                _context.Update(book);
-                await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var imageFromFile = await FileImageExtract(svm, file);
+
             }
             return RedirectToAction(nameof(Index));
         }
+
+
+        public async Task<Image> FileImageExtract(ScrapBookVM svm, IFormFile file)
+        {
+            var fam = await _context.Neighborhood.Include(f => f.FamilyScraps)
+                .FirstAsync(f => f.FamilyUnitId.Equals(CurrentUser.FamilyUnitId));
+
+            // extract file extension, write file to filesystem
+            var fileExtension = file.FileName.Split('.')[^1];
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                Image imageFromUpload = new()
+                {
+                    FileData = memoryStream.ToArray(),
+                    FileName = Path.GetRandomFileName().Split('.')[0] + '.' + fileExtension,
+                    FileExtension = file.FileName.Split('.')[^1]
+                };
+                memoryStream.CopyToFile("wwwroot/uploads/" + imageFromUpload.FileName);
+
+                // add image to the image store in the db and add it to the scrap being created.
+                svm.NewScrap.Images.Add(imageFromUpload);
+                fam.FamilyScraps.Entries.Add(svm.NewScrap);
+
+                // add scrap and parts to the db
+                await _context.Images.AddAsync(imageFromUpload);
+                await _context.Scraps.AddAsync(svm.NewScrap);
+                _context.Neighborhood.Update(fam);
+
+                await _context.SaveChangesAsync();
+                return imageFromUpload;
+            }
+
+        }
+
 
         // GET: Scrapbook/Edit/5
         public async Task<IActionResult> Edit(int? id)

@@ -36,6 +36,7 @@
     <None Remove="Views\Family\" />
     <None Remove="Views\Shared\DisplayTemplates\" />
     <None Remove="Util\" />
+    <None Remove="~\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
@@ -46,6 +47,7 @@
     <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="Util\" />
     <Folder Include="wwwroot\uploads\" />
+    <Folder Include="~\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\GreetingsMat.cs" />

@@ -116,5 +116,10 @@ public static class Seed
         context.Neighborhood.Update(family);
         context.SaveChanges();
     }
-    
+
+    public static void SeedScrapbook(IServiceProvider services)
+    {
+        FamilyContext context = services.GetRequiredService<FamilyContext>();
+
+    }
 }

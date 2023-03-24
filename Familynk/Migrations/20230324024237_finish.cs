@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Familynk.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class finish : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,23 +67,6 @@ namespace Familynk.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rules", x => x.HouseRulesId);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "ScrapBooks",
-                columns: table => new
-                {
-                    ScrapBookId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    MemberTagId = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    SenderId = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ScrapBooks", x => x.ScrapBookId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -149,7 +132,6 @@ namespace Familynk.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FamilyName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FamilyScrapsScrapBookId = table.Column<int>(type: "int", nullable: false),
                     RulesHouseRulesId = table.Column<int>(type: "int", nullable: false),
                     GetCalendarFamilyCalendarId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -167,38 +149,6 @@ namespace Familynk.Migrations
                         column: x => x.RulesHouseRulesId,
                         principalTable: "Rules",
                         principalColumn: "HouseRulesId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Neighborhood_ScrapBooks_FamilyScrapsScrapBookId",
-                        column: x => x.FamilyScrapsScrapBookId,
-                        principalTable: "ScrapBooks",
-                        principalColumn: "ScrapBookId",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Scraps",
-                columns: table => new
-                {
-                    ScrapId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ScrapBookId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    MemberTagId = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    SenderId = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Scraps", x => x.ScrapId);
-                    table.ForeignKey(
-                        name: "FK_Scraps_ScrapBooks_ScrapBookId",
-                        column: x => x.ScrapBookId,
-                        principalTable: "ScrapBooks",
-                        principalColumn: "ScrapBookId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -278,63 +228,26 @@ namespace Familynk.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Comments",
+                name: "ScrapBooks",
                 columns: table => new
                 {
-                    CommentId = table.Column<int>(type: "int", nullable: false)
+                    ScrapBookId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    IsReply = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ScrapId = table.Column<int>(type: "int", nullable: true),
-                    AppMessageId = table.Column<int>(type: "int", nullable: false),
-                    Body = table.Column<string>(type: "longtext", nullable: true)
+                    FamilyUnitId = table.Column<int>(type: "int", nullable: false),
+                    MemberTagId = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FamilyEventId = table.Column<int>(type: "int", nullable: true),
                     SenderId = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.CommentId);
+                    table.PrimaryKey("PK_ScrapBooks", x => x.ScrapBookId);
                     table.ForeignKey(
-                        name: "FK_Comments_Events_FamilyEventId",
-                        column: x => x.FamilyEventId,
-                        principalTable: "Events",
-                        principalColumn: "FamilyEventId");
-                    table.ForeignKey(
-                        name: "FK_Comments_Scraps_ScrapId",
-                        column: x => x.ScrapId,
-                        principalTable: "Scraps",
-                        principalColumn: "ScrapId");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    ImageId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    FileName = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    FileExtension = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    width = table.Column<int>(type: "int", nullable: true),
-                    ScrapBookId = table.Column<int>(type: "int", nullable: true),
-                    ScrapId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.ImageId);
-                    table.ForeignKey(
-                        name: "FK_Images_ScrapBooks_ScrapBookId",
-                        column: x => x.ScrapBookId,
-                        principalTable: "ScrapBooks",
-                        principalColumn: "ScrapBookId");
-                    table.ForeignKey(
-                        name: "FK_Images_Scraps_ScrapId",
-                        column: x => x.ScrapId,
-                        principalTable: "Scraps",
-                        principalColumn: "ScrapId");
+                        name: "FK_ScrapBooks_Neighborhood_FamilyUnitId",
+                        column: x => x.FamilyUnitId,
+                        principalTable: "Neighborhood",
+                        principalColumn: "FamilyUnitId",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -531,6 +444,95 @@ namespace Familynk.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Scraps",
+                columns: table => new
+                {
+                    ScrapId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ScrapBookId = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MemberTagId = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SenderId = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Scraps", x => x.ScrapId);
+                    table.ForeignKey(
+                        name: "FK_Scraps_ScrapBooks_ScrapBookId",
+                        column: x => x.ScrapBookId,
+                        principalTable: "ScrapBooks",
+                        principalColumn: "ScrapBookId",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    CommentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IsReply = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ScrapId = table.Column<int>(type: "int", nullable: true),
+                    AppMessageId = table.Column<int>(type: "int", nullable: false),
+                    Body = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FamilyEventId = table.Column<int>(type: "int", nullable: true),
+                    SenderId = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.CommentId);
+                    table.ForeignKey(
+                        name: "FK_Comments_Events_FamilyEventId",
+                        column: x => x.FamilyEventId,
+                        principalTable: "Events",
+                        principalColumn: "FamilyEventId");
+                    table.ForeignKey(
+                        name: "FK_Comments_Scraps_ScrapId",
+                        column: x => x.ScrapId,
+                        principalTable: "Scraps",
+                        principalColumn: "ScrapId");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    ImageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FileName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FileExtension = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    width = table.Column<int>(type: "int", nullable: true),
+                    FileData = table.Column<byte[]>(type: "longblob", nullable: false),
+                    ScrapBookId = table.Column<int>(type: "int", nullable: true),
+                    ScrapId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.ImageId);
+                    table.ForeignKey(
+                        name: "FK_Images_ScrapBooks_ScrapBookId",
+                        column: x => x.ScrapBookId,
+                        principalTable: "ScrapBooks",
+                        principalColumn: "ScrapBookId");
+                    table.ForeignKey(
+                        name: "FK_Images_Scraps_ScrapId",
+                        column: x => x.ScrapId,
+                        principalTable: "Scraps",
+                        principalColumn: "ScrapId");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Refrigerator",
                 columns: table => new
                 {
@@ -638,11 +640,6 @@ namespace Familynk.Migrations
                 column: "ScrapId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Neighborhood_FamilyScrapsScrapBookId",
-                table: "Neighborhood",
-                column: "FamilyScrapsScrapBookId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Neighborhood_GetCalendarFamilyCalendarId",
                 table: "Neighborhood",
                 column: "GetCalendarFamilyCalendarId");
@@ -661,6 +658,12 @@ namespace Familynk.Migrations
                 name: "IX_Refrigerator_PictureImageId",
                 table: "Refrigerator",
                 column: "PictureImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScrapBooks_FamilyUnitId",
+                table: "ScrapBooks",
+                column: "FamilyUnitId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Scraps_ScrapBookId",
@@ -730,6 +733,9 @@ namespace Familynk.Migrations
                 name: "Scraps");
 
             migrationBuilder.DropTable(
+                name: "ScrapBooks");
+
+            migrationBuilder.DropTable(
                 name: "Neighborhood");
 
             migrationBuilder.DropTable(
@@ -737,9 +743,6 @@ namespace Familynk.Migrations
 
             migrationBuilder.DropTable(
                 name: "Rules");
-
-            migrationBuilder.DropTable(
-                name: "ScrapBooks");
         }
     }
 }

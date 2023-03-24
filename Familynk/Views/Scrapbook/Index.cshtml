@@ -27,17 +27,27 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Book.Entries)
+        @foreach (var item in Model.Book.Entries!)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Comments!.Count)
+                    @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
+                    @foreach (var comment in item.Comments)
+                    {
+                        @Html.DisplayFor(modelItem => item.Comments)
+
+                    }
+                </td>
+                <td>
+                    @foreach (var image in item.Images)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(image.FileData)" width="200"/>
+                    }
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ScrapId">Edit</a> |

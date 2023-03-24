@@ -74,7 +74,9 @@ public class FamilyController : Controller
         await _context.SaveChangesAsync();
         family = _context.Neighborhood.First(u => u.FamilyName.Equals(family.FamilyName));
         CurrentUser.FamilyUnitId = family.FamilyUnitId;
-
+        family.Members.Add(CurrentUser);
+        _context.Neighborhood.Update(family);
+        await _context.SaveChangesAsync();
         var result = await _userManager.UpdateAsync(CurrentUser);
         if (result.Succeeded)
         {

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Familynk.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20230322012632_init")]
-    partial class init
+    [Migration("20230324024237_finish")]
+    partial class finish
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,9 +169,6 @@ namespace Familynk.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("FamilyScrapsScrapBookId")
-                        .HasColumnType("int");
-
                     b.Property<int>("GetCalendarFamilyCalendarId")
                         .HasColumnType("int");
 
@@ -179,8 +176,6 @@ namespace Familynk.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("FamilyUnitId");
-
-                    b.HasIndex("FamilyScrapsScrapBookId");
 
                     b.HasIndex("GetCalendarFamilyCalendarId");
 
@@ -220,6 +215,10 @@ namespace Familynk.Migrations
                     b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("FileData")
+                        .IsRequired()
+                        .HasColumnType("longblob");
 
                     b.Property<string>("FileExtension")
                         .IsRequired()
@@ -438,6 +437,9 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("MemberTagId")
                         .HasColumnType("longtext");
 
@@ -464,6 +466,9 @@ namespace Familynk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("FamilyUnitId")
+                        .HasColumnType("int");
+
                     b.Property<string>("MemberTagId")
                         .HasColumnType("longtext");
 
@@ -471,6 +476,9 @@ namespace Familynk.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("ScrapBookId");
+
+                    b.HasIndex("FamilyUnitId")
+                        .IsUnique();
 
                     b.ToTable("ScrapBooks");
                 });
@@ -619,12 +627,6 @@ namespace Familynk.Migrations
 
             modelBuilder.Entity("Familynk.Models.FamilyUnit", b =>
                 {
-                    b.HasOne("Familynk.Models.ScrapBook", "FamilyScraps")
-                        .WithMany()
-                        .HasForeignKey("FamilyScrapsScrapBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Familynk.Models.FamilyCalendar", "GetCalendar")
                         .WithMany()
                         .HasForeignKey("GetCalendarFamilyCalendarId")
@@ -636,8 +638,6 @@ namespace Familynk.Migrations
                         .HasForeignKey("RulesHouseRulesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("FamilyScraps");
 
                     b.Navigation("GetCalendar");
 
@@ -726,6 +726,15 @@ namespace Familynk.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Familynk.Models.ScrapBook", b =>
+                {
+                    b.HasOne("Familynk.Models.FamilyUnit", null)
+                        .WithOne("FamilyScraps")
+                        .HasForeignKey("Familynk.Models.ScrapBook", "FamilyUnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -801,6 +810,9 @@ namespace Familynk.Migrations
             modelBuilder.Entity("Familynk.Models.FamilyUnit", b =>
                 {
                     b.Navigation("FamilyChat");
+
+                    b.Navigation("FamilyScraps")
+                        .IsRequired();
 
                     b.Navigation("Members");
                 });
