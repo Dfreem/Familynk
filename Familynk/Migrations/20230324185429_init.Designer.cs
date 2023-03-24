@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Familynk.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20230324145926_init")]
+    [Migration("20230324185429_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -108,6 +108,9 @@ namespace Familynk.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("int");
 
+                    b.Property<int>("GetFamilyCalendarFamilyCalendarId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -148,6 +151,8 @@ namespace Familynk.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FamilyUnitId");
+
+                    b.HasIndex("GetFamilyCalendarFamilyCalendarId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -629,6 +634,14 @@ namespace Familynk.Migrations
                     b.HasOne("Familynk.Models.FamilyUnit", null)
                         .WithMany("Members")
                         .HasForeignKey("FamilyUnitId");
+
+                    b.HasOne("Familynk.Models.FamilyCalendar", "GetFamilyCalendar")
+                        .WithMany()
+                        .HasForeignKey("GetFamilyCalendarFamilyCalendarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GetFamilyCalendar");
                 });
 
             modelBuilder.Entity("Familynk.Models.FamilyUnit", b =>

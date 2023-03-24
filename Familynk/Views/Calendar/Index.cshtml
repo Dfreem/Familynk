@@ -11,31 +11,33 @@
 </p>
 
 <div class="d-grid">
-    <div class="row d-flex flex-wrap">
-        <div class="container-sm col-4 d-flex">
+    <div class="row">
+        <div class="col-4">
             @Html.DisplayFor(model => model.GetCalendar)
         </div>
-        @foreach (var item in Model.GetCalendar.Events!)
-        {
-            <div class="event-container col-3">
-                <div class="event-item">
-                    @Html.DisplayFor(modelItem => item.Title)
+        <div class="d-flex flex-wrap container col-7">
+            @foreach (var item in Model.GetCalendar.Events!)
+            {
+                <div class="event-container">
+                    <div class="event-item">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </div>
+                    <div class="event-item">
+                        @Html.DisplayFor(modelItem => item.EventDate)
+                    </div>
+                    <details class="event-details">
+                        @Html.DisplayFor(modelItem => item.Details)
+                        <summary>
+                            <i class="bi bi-info-square-fill"></i>
+                        </summary>
+                    </details>
+                    <div class="event-item">
+                        <a asp-action="Edit" asp-controller="Calendar" asp-route-id="@item.FamilyEventId">Edit</a> |
+                        <a asp-action="Details" asp-controller="Calendar" asp-route-id="@item.FamilyEventId">Details</a> |
+                        <a asp-action="Delete" asp-controller="Calendar" asp-route-id="@item.FamilyEventId">Delete</a>
+                    </div>
                 </div>
-                <div class="event-item">
-                    @Html.DisplayFor(modelItem => item.EventDate)
-                </div>
-                <details class="event-details">
-                    @Html.DisplayFor(modelItem => item.Details)
-                    <summary>
-                        <i class="bi bi-info-square-fill"></i>
-                    </summary>
-                </details>
-                <div class="event-item">
-                    <a asp-action="Edit" asp-controller="Calendar" asp-route-id="@item.FamilyEventId">Edit</a> |
-                    <a asp-action="Details" asp-controller="Calendar" asp-route-id="@item.FamilyEventId">Details</a> |
-                    <a asp-action="Delete" asp-controller="Calendar" asp-route-id="@item.FamilyEventId">Delete</a>
-                </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>

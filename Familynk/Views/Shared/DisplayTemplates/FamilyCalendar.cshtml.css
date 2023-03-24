@@ -3,9 +3,7 @@
     --border-radius: 34px;
     --accent-br: 15px;
     width: fit-content;
-    position: absolute;
-    margin-inline: 2em;
-    left: 5em;
+    position: inherit;
 }
 
     .calendar select {
@@ -13,6 +11,9 @@
         padding: 15px 20px;
     }
 
+a:any-link {
+    color: cyan;
+}
 .calendar__opts, .calendar__buttons {
     background-color: #fff;
     display: grid;
@@ -156,8 +157,8 @@
 }
 
 .calendar__button--primary {
-    background-color: #1752ff;
-    color: #fff;
+    background-color: none;
+    color: none;
     transition: box-shadow 0.3s cubic-bezier(0.21, 0.68, 0.09, 0.27), transform 0.2s linear;
 }
 

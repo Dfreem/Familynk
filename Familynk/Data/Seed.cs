@@ -105,7 +105,11 @@ public static class Seed
     public static void SeedCalendar(IServiceProvider services)
     {
         FamilyContext context = services.GetRequiredService<FamilyContext>();
-        var family = context.Neighborhood.First(f => f.FamilyName.Equals("Freeman"));
+        if (context.FamilyCalendars.Any())
+        {
+            return;
+        }
+        var family = context.Neighborhood.Include(f => f.GetCalendar).First(f => f.FamilyName.Equals("Freeman"));
         family.GetCalendar.Events?.Add(new()
         {
             Details = "this is for testing",
@@ -113,6 +117,9 @@ public static class Seed
             EventDate = DateTime.Now,
             SenderId = "d1"
         });
+        var signIn = services.GetRequiredService<SignInManager<FamilyMember>>();
+        family.GetCalendar.FamilyId = family.FamilyUnitId;
+        context.FamilyCalendars.Update(family.GetCalendar);
         context.Neighborhood.Update(family);
         context.SaveChanges();
     }

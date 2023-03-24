@@ -2,6 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600);
 
 /*font-family: 'Fira Sans', sans-serif;*/
+/*font-family: 'Sans Pro';*/
 :root {
     /*theme 1*/
     --eggshell: #f4f1deff;
@@ -15,6 +16,12 @@
     --papaya-whip: #ffecd1ff;
     --orange-wheel: #ff7d00ff;
     --sienna: #78290fff;
+    /*theme 3*/
+    --lapis-lazuli: #22577aff;
+    --verdigris: #38a3a5ff;
+    --emerald: #57cc99ff;
+    --light-green: #80ed99ff;
+    --tea-green: #c7f9ccff;
 }
 
 html {
@@ -34,9 +41,9 @@ for details on configuring this project to bundle and minify static web assets. 
     text-decoration: none;
 }
 
-a:any-link{
+a:any-link {
     text-decoration: none;
-    color:inherit;
+    color: none;
 }
 
 a.navbar-brand {
@@ -52,22 +59,29 @@ a.navbar-brand {
 }
 
 .add-btn {
-    color: var(--eggshell);
+    color:maroon;
     width: fit-content;
     padding: .5em;
     margin: .5em;
     outline: 1px var(--rich-black) solid;
-    border-radius:15px;
-    background-color: var(--cambridge-blue);
+    border-radius: 15px;
+    background-color: var(--verdigris);
+}
+
+a:any-link {
+    color: none;
+    text-decoration:none;
 }
 
 a:any-link:hover {
-    color: ButtonHighlight;
+    color: var(--caribbean-current);
+    opacity:80%;
+    backdrop-filter: drop-shadow(1), hue-rotate(.4);
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-/*    background-color: #1b6ec2;*/
+    /*    background-color: #1b6ec2;*/
     border-color: #1861ac;
 }
 
@@ -126,7 +140,7 @@ li, ol, ul, dl {
 .card {
     opacity: .9;
     margin: 1em;
-    max-width:fit-content;
+    max-width: fit-content;
     background-color: var(--eggshell);
     backdrop-filter: contrast(.8), drop-shadow(5px);
 }
@@ -166,17 +180,22 @@ li, ol, ul, dl {
 /*#region Family Calendar*/
 
 .event-container {
-    opacity: 75%;
-    background-color: #e5e5e5;
-    width:fit-content;
+    opacity: 90%;
+    backdrop-filter: opacity(.5);
+    background-color: var(--tea-green);
+    width: fit-content;
     height: fit-content;
     padding: 10px;
-    margin: 1em;
-    border-radius: 2em;
+    margin: .3em;
+    border-radius: .5em;
+    font-family: 'Sans Pro';
 }
 
-details.event-details {
-    list-style-type:none;
+details > summary:first-of-type {
+    list-style-type: none;
 }
 
+details summary::marker {
+    display: none;
+}
 /*endregion*/

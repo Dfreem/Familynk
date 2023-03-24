@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Familynk.Data;
-using Familynk.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Familynk.Controllers
 {
+    [Authorize]
     public class CalendarController : Controller
     {
         private readonly FamilyContext _context;
@@ -17,7 +10,7 @@ namespace Familynk.Controllers
         private readonly SignInManager<FamilyMember> _signInManager;
         private readonly UserManager<FamilyMember> _userManager;
         public FamilyMember CurrentUser { get; set; }
-
+        public FamilyUnit? CurrentFamily { get; set; }
 
 
         public CalendarController(FamilyContext context, IServiceProvider services)
@@ -26,23 +19,35 @@ namespace Familynk.Controllers
             _services = services;
             _signInManager = services.GetRequiredService<SignInManager<FamilyMember>>();
             _userManager = _signInManager.UserManager;
-            CurrentUser = _userManager.FindByNameAsync(_signInManager.Context.User!.Identity!.Name!)
-            .Result!;
+            string? uName = _signInManager.Context.User.Identity?.Name;
+            CurrentUser = _userManager
+                .FindByNameAsync(uName!).Result ?? new();
+
             CurrentUser.DMsSent = _context.DMs.Where(m => m.SenderId!.Equals(CurrentUser.Id)).ToList();
             CurrentUser.DMsRecieved = _context.DMs.Where(m => m.RecipientId.Equals(CurrentUser.Id)).ToList();
+            if (CurrentUser.FamilyUnitId is not null)
+            {
+                CurrentFamily = _context.Neighborhood
+                    .Include(f => f.GetCalendar)
+                    .ThenInclude(c => c.Events)
+                    .First(f => f.FamilyUnitId
+                    .Equals(CurrentUser.FamilyUnitId));
+            }
+            if (CurrentFamily is not null)
+            {
+                CurrentFamily.GetCalendar = _context.FamilyCalendars.Find(CurrentFamily?.FamilyUnitId) ?? new();
+            }
         }
 
         // GET: Calander
         public async Task<IActionResult> Index()
         {
-            var family = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
-            var calendar = family?.GetCalendar;
-            calendar!.Events = _context.Events.Where(e => e.CalendarId.Equals(family!.GetCalendar.FamilyCalendarId)).ToList();
-            CalendarVM cvm = new()
-            {
-                FamilyName = family!.FamilyName,
-                GetCalendar = calendar
-            };
+            FamilyCalendar cal = await _context.FamilyCalendars.FindAsync(CurrentFamily!.GetCalendar.FamilyCalendarId) ?? new();
+            var events = _context.Events
+                .Where(e => e.CalendarId
+                    .Equals(cal.FamilyCalendarId))
+                .ToList();
+            var cvm = new CalendarVM(cal ?? new());
             return View(cvm);
         }
         public async Task<IActionResult> Details(int? id)
@@ -53,13 +58,22 @@ namespace Familynk.Controllers
             }
 
             var familyEvent = await _context.Events
+                .Include(e => e.Comments)
                 .FirstOrDefaultAsync(m => m.FamilyEventId == id);
             if (familyEvent == null)
             {
                 return NotFound();
             }
-
-            return View(familyEvent);
+            EventVM evm = new(familyEvent)
+            {
+                Creator = CurrentUser
+            };
+            var savedEvents = _context.Events.Where(e => e.CalendarId.Equals(CurrentFamily!.GetCalendar.FamilyCalendarId))?.ToList() ?? new List<FamilyEvent>();
+            if (!savedEvents.IsNullOrEmpty())
+            {
+                evm.GetCalendar.Events ??= savedEvents;
+            }
+            return View(evm);
         }
 
         // GET: Event/Create
@@ -76,17 +90,10 @@ namespace Familynk.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title, EventDate, Details, Creator")] EventVM familyEvent)
         {
-            if (ModelState.GetFieldValidationState("Title") == ModelValidationState.Valid)
+            if (ModelState.GetFieldValidationState("Title") == ModelValidationState.Valid &&
+                ModelState.GetFieldValidationState(nameof(familyEvent.GetCalendar.FamilyCalendarId)) == ModelValidationState.Valid)
             {
-                FamilyEvent famEvent = new()
-                {
-
-                    Details = familyEvent.Details,
-                    EventDate = familyEvent.EventDate,
-                    SenderId = CurrentUser.Id,
-                    Title = familyEvent.Title
-
-                };
+                FamilyEvent famEvent = (FamilyEvent)familyEvent;
                 _context.Events.Add(famEvent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), "Calendar");
@@ -107,7 +114,13 @@ namespace Familynk.Controllers
             {
                 return NotFound();
             }
-            return View(familyEvent);
+            var cal = await _context.FamilyCalendars.FirstOrDefaultAsync(c => c.FamilyId.Equals(CurrentUser.FamilyUnitId));
+            EventVM cvm = new(familyEvent)
+            {
+                Creator = CurrentUser,
+                Edit = familyEvent
+            };
+            return View(cvm);
         }
 
         // POST: Event/Edit/5
@@ -115,23 +128,25 @@ namespace Familynk.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FamilyEventId,MemberTagId,SenderId,CalendarId,EventDate,Title,Details")] FamilyEvent familyEvent)
+        public async Task<IActionResult> Edit(int id, EventVM familyEvent)
         {
-            if (id != familyEvent.FamilyEventId)
+            if (id != familyEvent.Edit.FamilyEventId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.GetFieldValidationState("Edit") == ModelValidationState.Valid)
             {
                 try
                 {
-                    _context.Update(familyEvent);
+                    _context.Events.Remove(_context.Events.Find(id)!);
+                    _context.Events.Update(familyEvent.Edit);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FamilyEventExists(familyEvent.FamilyEventId))
+                    if (!FamilyEventExists(familyEvent.Edit.FamilyEventId))
                     {
                         return NotFound();
                     }

@@ -160,6 +160,7 @@ namespace Familynk.Migrations
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FamilyUnitId = table.Column<int>(type: "int", maxLength: 20, nullable: true),
+                    GetFamilyCalendarFamilyCalendarId = table.Column<int>(type: "int", nullable: false),
                     Birthday = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -189,6 +190,12 @@ namespace Familynk.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_FamilyCalendars_GetFamilyCalendarFamilyCalendarId",
+                        column: x => x.GetFamilyCalendarFamilyCalendarId,
+                        principalTable: "FamilyCalendars",
+                        principalColumn: "FamilyCalendarId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Neighborhood_FamilyUnitId",
                         column: x => x.FamilyUnitId,
@@ -594,6 +601,11 @@ namespace Familynk.Migrations
                 name: "IX_AspNetUsers_FamilyUnitId",
                 table: "AspNetUsers",
                 column: "FamilyUnitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_GetFamilyCalendarFamilyCalendarId",
+                table: "AspNetUsers",
+                column: "GetFamilyCalendarFamilyCalendarId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
