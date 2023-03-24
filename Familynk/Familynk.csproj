@@ -36,7 +36,6 @@
     <None Remove="Views\Family\" />
     <None Remove="Views\Shared\DisplayTemplates\" />
     <None Remove="Util\" />
-    <None Remove="~\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
@@ -46,13 +45,12 @@
     <Folder Include="Views\Family\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="Util\" />
-    <Folder Include="wwwroot\uploads\" />
-    <Folder Include="~\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\GreetingsMat.cs" />
     <Compile Remove="Data\ImageCollection.cs" />
     <Compile Remove="Usings.cs" />
+    <Compile Remove="Controllers\FamilyEventController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
@@ -61,7 +59,6 @@
     <Content Remove="wwwroot\css\FamilyUnit.css" />
     <Content Remove="wwwroot\css\FamilyCalendar.cshtml.css" />
     <Content Remove="wwwroot\Usings.cs" />
-    <Content Remove="wwwroot\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\images\livingRoom.png">

@@ -5,7 +5,7 @@ namespace Familynk.ViewModels
     {
         public FamilyCalendar GetCalendar { get; set; } = default!;
         public string FamilyName { get; set; } = default!;
-        List<EventVm> Events { get; set; } = new();
+        List<EventVM> Events { get; set; } = new();
        
     }
 }

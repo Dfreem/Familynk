@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Familynk.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20230324024237_finish")]
-    partial class finish
+    [Migration("20230324145926_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,8 +287,14 @@ namespace Familynk.Migrations
                     b.Property<int?>("FamilyEventId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("HasReply")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("IsReply")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("ReplyTo")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ScrapId")
                         .HasColumnType("int");

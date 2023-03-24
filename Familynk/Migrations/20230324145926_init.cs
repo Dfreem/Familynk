@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Familynk.Migrations
 {
     /// <inheritdoc />
-    public partial class finish : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -477,6 +477,8 @@ namespace Familynk.Migrations
                     CommentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsReply = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    HasReply = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ReplyTo = table.Column<int>(type: "int", nullable: true),
                     ScrapId = table.Column<int>(type: "int", nullable: true),
                     AppMessageId = table.Column<int>(type: "int", nullable: false),
                     Body = table.Column<string>(type: "longtext", nullable: true)

@@ -284,8 +284,14 @@ namespace Familynk.Migrations
                     b.Property<int?>("FamilyEventId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("HasReply")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("IsReply")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("ReplyTo")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ScrapId")
                         .HasColumnType("int");

@@ -19,14 +19,6 @@ public class FamilyEventController : Controller
         CurrentUser = _userManager.FindByNameAsync(_signInManager.Context.User!.Identity!.Name!)
         .Result!;
     }
-    // GET: Event
-    public async Task<IActionResult> Index()
-    {
-        var fam = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
-        return _context.Events != null ?
-                    View(await _context.Events.Where(e => e.CalendarId.Equals(fam!.GetCalendar.FamilyCalendarId)).Include(c => c.Comments).ToListAsync()) :
-                    Problem("Entity set 'FamilyContext.Events'  is null.");
-    }
 
     // GET: Event/Details/5
     public async Task<IActionResult> Details(int? id)
@@ -49,7 +41,7 @@ public class FamilyEventController : Controller
     // GET: Event/Create
     public IActionResult Create()
     {
-        EventVm evm = new() { Creator = CurrentUser };
+        EventVM evm = new() { Creator = CurrentUser };
         return View(evm);
     }
 
@@ -58,7 +50,7 @@ public class FamilyEventController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Title, EventDate, Details, Creator")] EventVm familyEvent)
+    public async Task<IActionResult> Create([Bind("Title, EventDate, Details, Creator")] EventVM familyEvent)
     {
         if (ModelState.GetFieldValidationState("Title") == ModelValidationState.Valid)
         {
@@ -124,7 +116,7 @@ public class FamilyEventController : Controller
                     throw;
                 }
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), "Calendar");
         }
         return View(familyEvent);
     }
@@ -132,19 +124,15 @@ public class FamilyEventController : Controller
     // GET: Event/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {
-        if (id == null || _context.Events == null)
+        var toDelete = await _context.Events.FindAsync(id);
+        if (toDelete is null)
         {
-            return NotFound();
+            ModelState.AddModelError(nameof(id), "could not find the event.");
+            return RedirectToAction("Index", "Calendar");
         }
-
-        var familyEvent = await _context.Events
-            .FirstOrDefaultAsync(m => m.FamilyEventId == id);
-        if (familyEvent == null)
-        {
-            return NotFound();
-        }
-
-        return View(familyEvent);
+        _context.Events.Remove(toDelete);
+        _context.SaveChanges();
+        return RedirectToAction(nameof(Index), "Calendar");
     }
 
     // POST: Event/Delete/5
@@ -163,7 +151,22 @@ public class FamilyEventController : Controller
         }
 
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index), "Calendar");
+    }
+
+    public async Task<IActionResult> DeleteComment(int id)
+    {
+        var toDelete = await _context.Comments.FindAsync(id);
+        if (toDelete is null)
+        {
+            ModelState.AddModelError(nameof(Comment), "Could not find Comment");
+            return RedirectToAction(nameof(Index));
+        }
+        var _event = await _context.Events.FirstAsync(e => e.FamilyEventId.Equals(toDelete!.FamilyEventId));
+        _event.Comments.Remove(toDelete);
+        _context.Comments.Remove(toDelete);
+        _context.Events.Update(_event);
+        return RedirectToAction(nameof(Index), "Calendar");
     }
 
     private bool FamilyEventExists(int id)

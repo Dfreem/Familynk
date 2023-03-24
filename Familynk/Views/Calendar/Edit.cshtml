@@ -1,4 +1,4 @@
-@model Familynk.Models.FamilyCalendar
+@model EventVM
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,11 +6,35 @@
 
 <h1>Edit</h1>
 
-<h4>FamilyCalendar</h4>
+<h4>FamilyEvent</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        @Html.DisplayFor(model => model)
+        <form asp-action="Edit" asp-controller="">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Creator.Id" value="@Model.Creator.Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Details" class="control-label"></label>
+                <input asp-for="Details" class="form-control" />
+                <span asp-validation-for="Details" class="text-danger"></span>
+            </div>
+            @foreach (var comment in Model.Comments)
+            {
+                <label>@comment</label>
+                <p>@comment.Body</p>
+                <a asp-action="DeleteComment" asp-controller="FamilyEvent" asp-route-id="@comment.CommentId">
+                    <i class="bi bi-trash text-danger"></i>
+                </a>
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
 </div>
 

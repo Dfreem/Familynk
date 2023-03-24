@@ -175,4 +175,8 @@ li, ol, ul, dl {
     border-radius: 2em;
 }
 
+details.event-details {
+    list-style-type:none;
+}
+
 /*endregion*/

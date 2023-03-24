@@ -81,6 +81,7 @@ namespace Familynk.Controllers
                     .Equals(CurrentUser.FamilyUnitId))
                 .FirstOrDefaultAsync(f => f.FamilyUnitId
                     .Equals(CurrentUser.FamilyUnitId));
+
             svm.Family = fam ?? new();
             return View(svm);
         }
@@ -93,23 +94,24 @@ namespace Familynk.Controllers
         {
             // saving image to local filesystem
             string acceptsFiletypes = "png, jpg, webp";
-            foreach (var file in svm.FileUpload)
+            if (svm.FileUpload is null ||
+                !acceptsFiletypes.Split(',').Contains(svm.FileUpload.FileName.Split('.')[^1]))
             {
-                // only allow image files, check the file extensions.
-                if (svm.FileUpload is null || !acceptsFiletypes.Split(',')
-                        .Contains(file.FileName.Split('.')[^1]))
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-
-                var imageFromFile = await FileImageExtract(svm, file);
-
+                return RedirectToAction(nameof(Index));
             }
+
+            var imageFromFile = await FileImageExtract(svm, svm.FileUpload);
             return RedirectToAction(nameof(Index));
         }
 
-
-        public async Task<Image> FileImageExtract(ScrapBookVM svm, IFormFile file)
+        /// <summary>
+        /// protected method specifically for uploading files to Famliynk.
+        /// This method contains all the additions needed to insert a <see cref="Familynk.Models.Scrap"></see> into to the database along with an image. The image is converted to a byte array then store in an <see cref="Image"/>.
+        /// </summary>
+        /// <param name="svm"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        protected async Task<Image> FileImageExtract(ScrapBookVM svm, IFormFile file)
         {
             var fam = await _context.Neighborhood.Include(f => f.FamilyScraps)
                 .FirstAsync(f => f.FamilyUnitId.Equals(CurrentUser.FamilyUnitId));
@@ -122,18 +124,18 @@ namespace Familynk.Controllers
                 Image imageFromUpload = new()
                 {
                     FileData = memoryStream.ToArray(),
-                    FileName = Path.GetRandomFileName().Split('.')[0] + '.' + fileExtension,
+                    FileName = file.FileName.Split('.')[0],
                     FileExtension = file.FileName.Split('.')[^1]
                 };
-                memoryStream.CopyToFile("wwwroot/uploads/" + imageFromUpload.FileName);
+                //memoryStream.CopyToFile("wwwroot/uploads/" + imageFromUpload.FileName);
 
                 // add image to the image store in the db and add it to the scrap being created.
-                svm.NewScrap.Images.Add(imageFromUpload);
-                fam.FamilyScraps.Entries.Add(svm.NewScrap);
+                svm.Edit.Images.Add(imageFromUpload);
+                fam.FamilyScraps.Entries.Add(svm.Edit);
 
                 // add scrap and parts to the db
                 await _context.Images.AddAsync(imageFromUpload);
-                await _context.Scraps.AddAsync(svm.NewScrap);
+                await _context.Scraps.AddAsync(svm.Edit);
                 _context.Neighborhood.Update(fam);
 
                 await _context.SaveChangesAsync();
@@ -142,8 +144,20 @@ namespace Familynk.Controllers
 
         }
 
+        public async Task<IActionResult> UpdateScrapImage(int id, [Bind("ScrapBook, FamilyUnit, Scrap ")] ScrapBookVM svm)
+        {
+            var scrap = await _context.Scraps.FindAsync(svm.Edit.ScrapId);
+            var toUpdate = scrap?.Images.Find(i => i.ImageId.Equals(id));
+            MemoryStream memoryStream = new();
+            svm.FileUpload.CopyTo(memoryStream);
+            toUpdate!.FileData = memoryStream.ToArray();
+            _context.Scraps.Update(scrap!);
+            _context.Images.Update(toUpdate);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Edit");
+        }
 
-        // GET: Scrapbook/Edit/5
+        // GET: Scrapbook/Edit/5                                         List
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Scraps == null)
@@ -156,7 +170,16 @@ namespace Familynk.Controllers
             {
                 return NotFound();
             }
-            return View(scrap);
+            ScrapBookVM svm = new()
+            {
+                Edit = scrap,
+                Family = _context.Neighborhood.Find(CurrentUser.FamilyUnitId)!,
+                Book = await _context.ScrapBooks
+                    .Include(sb => sb.Entries)
+                    .FirstAsync(f => f.FamilyUnitId
+                    .Equals(CurrentUser.FamilyUnitId))
+            };
+            return View(svm);
         }
 
         // POST: Scrapbook/Edit/5
@@ -164,34 +187,20 @@ namespace Familynk.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ScrapId,Title,MemberTagId,SenderId")] Scrap scrap)
+        public async Task<IActionResult> Edit(int id, [Bind("ScrapId,Title,MemberTagId,SenderId")] ScrapBookVM scrap)
         {
-            if (id != scrap.ScrapId)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                ModelState.AddModelError(nameof(ScrapBookVM), ModelState.GetValidationState(nameof(ScrapBookVM)).Humanize());
+                return View(scrap);
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(scrap);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ScrapExists(scrap.ScrapId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(scrap);
+            var retrievedScraps = await _context.Scraps.FindAsync(id);
+            retrievedScraps?.Comments.AddRange(scrap.Edit.Comments);
+            retrievedScraps?.Images.AddRange(scrap.Edit.Images);
+            retrievedScraps!.Title = scrap.Edit.Title;
+            _context.Scraps.Update(retrievedScraps);
+            _context.SaveChanges();
+            return View("Index");
         }
 
         // GET: Scrapbook/Delete/5
@@ -222,6 +231,11 @@ namespace Familynk.Controllers
                 return Problem("Entity set 'FamilyContext.Scraps'  is null.");
             }
             var scrap = await _context.Scraps.FindAsync(id);
+            var book = await _context.ScrapBooks.FindAsync(scrap!.ScrapBookId);
+            if (book != null)
+            {
+                book.Entries.Remove(scrap!);
+            }
             if (scrap != null)
             {
                 _context.Scraps.Remove(scrap);

@@ -13,14 +13,14 @@
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NewScrap.Title" class="control-label"></label>
-                <input asp-for="NewScrap.Title" class="form-control" />
-                <span asp-validation-for="NewScrap.Title" class="text-danger"></span>
+                <label asp-for="Edit.Title" class="control-label"></label>
+                <input asp-for="Edit.Title" class="form-control" />
+                <span asp-validation-for="Edit.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NewComment" class="control-label"></label>
                 <input asp-for="NewComment" class="form-control" />
-                <span asp-validation-for="NewScrap.Comments" class="text-danger"></span>
+                <span asp-validation-for="Edit.Comments" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input asp-for="FileUpload" type="file" class="form-control" />

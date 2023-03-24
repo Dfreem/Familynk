@@ -7,7 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a class="add-btn" asp-action="Create" asp-controller="FamilyEvent">Add New Event</a>
+    <a class="add-btn" asp-action="Create" asp-controller="Calendar">Add New Event</a>
 </p>
 
 <div class="d-grid">
@@ -24,16 +24,16 @@
                 <div class="event-item">
                     @Html.DisplayFor(modelItem => item.EventDate)
                 </div>
-                <details>
-                    Details
+                <details class="event-details">
+                    @Html.DisplayFor(modelItem => item.Details)
                     <summary>
-                        @Html.DisplayFor(modelItem => item.Details)
+                        <i class="bi bi-info-square-fill"></i>
                     </summary>
                 </details>
                 <div class="event-item">
-                    <a asp-action="Edit" asp-controller="FamilyEvent" asp-route-id="@item.FamilyEventId">Edit</a> |
-                    <a asp-action="Details" asp-controller="FamilyEvent" asp-route-id="@item.FamilyEventId">Details</a> |
-                    <a asp-action="Delete" asp-controller="FamilyEvent" asp-route-id="@item.FamilyEventId">Delete</a>
+                    <a asp-action="Edit" asp-controller="Calendar" asp-route-id="@item.FamilyEventId">Edit</a> |
+                    <a asp-action="Details" asp-controller="Calendar" asp-route-id="@item.FamilyEventId">Details</a> |
+                    <a asp-action="Delete" asp-controller="Calendar" asp-route-id="@item.FamilyEventId">Delete</a>
                 </div>
             </div>
         }
