@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace Familynk.Controllers;
-
+[Authorize]
 public class FamilyController : Controller
 {
     private readonly SignInManager<FamilyMember> _signInManager;
@@ -26,7 +26,11 @@ public class FamilyController : Controller
     {
         var messages = _context.ChatTv.Where(m => m.FamilyUnitId.Equals(CurrentUser.FamilyUnitId));
 
-        FamilyChat familyMessages = new() { Messages = messages.ToList() };
+        FamilyChat familyMessages = new()
+        {
+            Messages = messages.ToList(),
+            SenderId = CurrentUser.Id
+        };
         LivingRoomVM lvm = new()
         {
             ChatTv = familyMessages,
@@ -116,7 +120,7 @@ public class FamilyController : Controller
         var toDelete = await _context.ChatTv.FindAsync(familyMessageId);
         _context.ChatTv.Remove(toDelete!);
         _context.SaveChanges();
-        return RedirectToAction("Index");
+        return RedirectToAction("FamilyRoom");
     }
 
     // TODO send invite to family instead of automatically adding them
@@ -127,7 +131,7 @@ public class FamilyController : Controller
         var addingTo = await _context.Neighborhood.FindAsync(fid);
         if (toAdd is null)
         {
-            ModelState.AddModelError(nameof(toAdd), "please enter a valid username");
+            ModelState.AddModelError("toAdd", "please enter a valid username");
         }
         else if (retreivedMember is null)
         {
@@ -140,6 +144,10 @@ public class FamilyController : Controller
         else
         {
             retreivedMember.FamilyUnitId = addingTo.FamilyUnitId;
+            if (retreivedMember is null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             addingTo.Members.Add(retreivedMember);
             _context.Neighborhood.Update(addingTo);
             _context.SaveChanges();

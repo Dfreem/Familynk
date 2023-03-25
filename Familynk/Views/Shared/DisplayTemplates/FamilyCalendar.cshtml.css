@@ -2,7 +2,7 @@
     --side-padding: 20px;
     --border-radius: 34px;
     --accent-br: 15px;
-    width: fit-content;
+    max-width: fit-content;
     position: inherit;
 }
 

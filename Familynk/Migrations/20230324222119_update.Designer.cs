@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Familynk.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20230324185429_init")]
-    partial class init
+    [Migration("20230324222119_update")]
+    partial class update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,7 +105,6 @@ namespace Familynk.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<int?>("FamilyUnitId")
-                        .HasMaxLength(20)
                         .HasColumnType("int");
 
                     b.Property<int>("GetFamilyCalendarFamilyCalendarId")
@@ -117,9 +116,13 @@ namespace Familynk.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("MessageBubbleColor")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -492,6 +495,20 @@ namespace Familynk.Migrations
                         .IsUnique();
 
                     b.ToTable("ScrapBooks");
+                });
+
+            modelBuilder.Entity("Familynk.Models.UserSettings", b =>
+                {
+                    b.Property<int>("UserSettingsID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpeechBubbleColor")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserSettingsID");
+
+                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

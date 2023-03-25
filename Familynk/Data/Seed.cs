@@ -55,17 +55,21 @@ public static class Seed
         await userManager.AddToRoleAsync(devin!, "HOH");
         await userManager.AddToRoleAsync(testMember, "FamilyMember");
 
-        SeedChat(services);
+        await SeedChat(services);
     }
-    public static void SeedChat(IServiceProvider services)
+    public static async Task SeedChat(IServiceProvider services)
     {
         var context = services.GetRequiredService<FamilyContext>();
+        var uManager = services.GetRequiredService<UserManager<FamilyMember>>();
+        var devin = await uManager.FindByNameAsync("dfreem987");
+        var someGuy = await uManager.FindByNameAsync("dfreem987");
         if (!context.ChatTv.IsNullOrEmpty())
         { return; }
         context.ChatTv.Add(new()
         {
             Body = "This is a new chat message",
             SenderName = "Devin",
+            SenderId = devin!.Id,
             Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
         });
 
@@ -73,6 +77,7 @@ public static class Seed
         {
             Body = "Ok, sounds good",
             SenderName = "some guy",
+            SenderId = "t1",
             Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
         });
 
@@ -80,6 +85,7 @@ public static class Seed
         {
             Body = "This is cool",
             SenderName = "Devin",
+            SenderId = "d1",
             Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
         });
         context.SaveChanges();

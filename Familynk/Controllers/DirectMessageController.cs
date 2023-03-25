@@ -18,7 +18,8 @@ public class DirectMessageController : Controller
         _userManager = _signInManager.UserManager;
         CurrentUser = _userManager.FindByNameAsync(_signInManager.Context.User!.Identity!.Name!)
         .Result!;
-        CurrentUser.DMsSent = _context.DMs.Where(m => m.SenderId.Equals(CurrentUser.Id)).ToList();
+
+        CurrentUser.DMsSent = _context.DMs.Where(m => m.SenderId!.Equals(CurrentUser.Id)).ToList();
         CurrentUser.DMsRecieved = _context.DMs.Where(m => m.RecipientId.Equals(CurrentUser.Id)).ToList();
     }
 

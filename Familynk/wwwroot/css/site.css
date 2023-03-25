@@ -1,5 +1,6 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,800;1,600&display=swap');
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600);
+@import url('https://fonts.googleapis.com/css?family=Lato');
 
 /*font-family: 'Fira Sans', sans-serif;*/
 /*font-family: 'Sans Pro';*/
@@ -151,29 +152,47 @@ li, ol, ul, dl {
 
 /*#endregion*/
 /*
-.text-primary {
-    color: var(--cambridge-blue);
-    font-family: 'Fira Sans', sans-serif;
-}
-*/
+
 /*#region =========== Family Room ===========*/
-/*
-.chat-tv {
-    position: relative;
+
+.chat-container {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 25px;
+    box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.7);
+    padding: 15px;
+    overflow-y:scroll;
+    scroll-margin-bottom:.4em;
+    position: absolute;
+    right: 10em;
+    top:0;
+    margin-block:10em;
+    min-width: 45%;
+    max-width: 45%;
+    max-height: 60%;
+    min-height: 60%;
 }
 
-.fam-chatbox {
-    position: absolute;
-    left: 60%;
-    bottom: 5%;
-}*/
-.chat-wrap {
-    max-width: max-content;
-    min-width: max-content;
-    position: absolute;
-    left: 60%;
-    top: 15%;
+.text_input {
+    font-size: 16px;
+    position:  absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 15px;
+    width: 100%;
 }
+
+.scroll-wrap {  
+    overflow: hidden;
+    max-width: 520px;
+    min-width:520px;
+    position:absolute;
+}
+
+.inner-scroll {
+
+}
+
 /*#endregion*/
 
 

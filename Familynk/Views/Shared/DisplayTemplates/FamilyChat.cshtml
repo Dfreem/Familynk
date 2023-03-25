@@ -1,22 +1,32 @@
 ﻿@model FamilyChat
-@{
-}
+
 <link rel="stylesheet" href="FamilyChat.cshtml.css" />
-<div class="d-flex flex-column">
-    <div class="fam-chat">
+@*<h2>Weekly Coding Challenge #8 <br /> Chat Interface</h2>*@
+
+    <ul class="chat">
         @foreach (var message in Model.Messages)
         {
-            <div class="fam-msg">
-                <div class="message-from">
-                    @message.SenderName
-                </div>
-                <div class="message-body">
-                    @message.Body
-                </div>
-                <a asp-action="DeleteFamilyMessage" asp-controller="Family" asp-route-familyMessageId="@message.AppMessageId"></a>
-            </div>
+            if (message.SenderId!.Equals(Model.SenderId))
+            {
+
+                <li class="message left">
+                    <img class="logo" src="https://randomuser.me/api/portraits/women/17.jpg" alt="">
+                    <b>@message.SenderName</b>
+                    <p>@message.Body</p>
+                </li>
+
+            }
+            else
+            {
+                <li class="message right">
+                    <img class="logo" src="https://randomuser.me/api/portraits/men/67.jpg" alt="">
+                    <b>@message.SenderName</b>
+                    <p>@message.Body</p>
+                </li>
+
+            }
+
         }
-    </div>
 
+    </ul>
 
-</div>

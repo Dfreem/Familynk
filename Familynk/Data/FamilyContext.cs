@@ -26,6 +26,7 @@ public class FamilyContext : IdentityDbContext<FamilyMember>
     public DbSet<MemberTag> Tags { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet <UserSettings> UserSettings { get; set; }
 
 }
 

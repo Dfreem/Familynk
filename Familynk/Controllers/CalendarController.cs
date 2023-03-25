@@ -88,13 +88,14 @@ namespace Familynk.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title, EventDate, Details, Creator")] EventVM familyEvent)
+        public async Task<IActionResult> Create( EventVM familyEvent)
         {
-            if (ModelState.GetFieldValidationState("Title") == ModelValidationState.Valid &&
-                ModelState.GetFieldValidationState(nameof(familyEvent.GetCalendar.FamilyCalendarId)) == ModelValidationState.Valid)
+            if (ModelState.GetFieldValidationState("Edit.Title") == ModelValidationState.Valid &&
+                ModelState.GetFieldValidationState("Edit.Details") == ModelValidationState.Valid)
             {
                 FamilyEvent famEvent = (FamilyEvent)familyEvent;
-                _context.Events.Add(famEvent);
+                CurrentFamily?.GetCalendar.Events.Add(famEvent);
+                _context.Neighborhood.Update(CurrentFamily!);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), "Calendar");
             }

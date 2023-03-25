@@ -62,7 +62,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     //Init in the static SeedData class checks for the presence of data in the database before seeding or returning.
     Seed.SeedUsersAsync(services).Wait();
-    Seed.SeedChat(services);
+    Seed.SeedChat(services).Wait();
     Seed.SeedDms(services).Wait();
     Seed.SeedCalendar(services);
 }

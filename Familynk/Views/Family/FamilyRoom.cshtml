@@ -5,26 +5,23 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<div class="family-calendar">
+<div class="family-calendar mt-4">
     @Html.DisplayFor(model => model.Family.GetCalendar)
 </div>
 
-<div class="chat-wrap d-grid">
-    <div class="row">
-        <div class="col-5">
-            @Html.DisplayFor(model => model.ChatTv)
+<div class="chat-container">
+    <form asp-controller="Family" asp-action="SendFamilyMessage" asp-route-newMessage="@newMessage">
+        <div class="scroll-wrap">
+            <div class="inner-scroll">
+                @Html.DisplayFor(model => model.ChatTv)
 
-            <form asp-controller="Family" asp-action="SendFamilyMessage" asp-route-newMessage="@newMessage">
-                <input asp-for="@newMessage.Body" type="text" />
-                <input type="hidden" asp-for="@newMessage.SenderName" value="@Model.CurrentUser.Name" class="form-control" />
-                <input type="submit" value="send" class="btn btn-primary" />
-
-
-            </form>
+            </div>
         </div>
-
-    </div>
-
+        <div class="form-group">
+            <input asp-for="@newMessage.Body" type="text" class="text_input form-control" placeholder="Message..." />
+        </div>
+        <input type="submit" value="send" class="btn btn_input" />
+    </form>
 </div>
 <!--<div class="couch">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 150 800 300" clip-path="" height="300" y="-20">-->
