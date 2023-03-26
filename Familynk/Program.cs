@@ -24,7 +24,7 @@ builder.Services.AddSingleton<IFamilyRepo,FakeFamilyRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
+builder.Services.AddSignalR();
 builder.Services.AddNotyf(config =>
 {
     config.DurationInSeconds = 3;
@@ -56,6 +56,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapHub<NotificationHub>("/Notifications/NotificationHub");
 // use scoped service provider to call SeedData initialization.
 using (var scope = app.Services.CreateScope())
 {

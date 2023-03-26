@@ -10,4 +10,9 @@ public class ScrapBook : ITaggable
     public List<Image> Photos { get; set; } = new();
     public string? MemberTagId { get; set; }
     public string? SenderId { get; set; }
+
+    public Task ReceiveMessage(string user, string message)
+    {
+        throw new NotImplementedException();
+    }
 }

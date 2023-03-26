@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace Familynk.Controllers
 {
@@ -43,20 +44,22 @@ namespace Familynk.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _toast.Error("something went wrong");
                 return View(rvm);
             }
             
             var userManager = _signinManager.UserManager;
-            var result = await userManager.CreateAsync(new FamilyMember()
+      
+            var newMember = new FamilyMember()
             {
                 Name = rvm.Name,
                 UserName = rvm.UserName,
-                Email = rvm.Email,
-            }, rvm.Password);
+                Email = rvm.Email
+            };
+            var result = await userManager.CreateAsync(newMember, rvm.Password);
             if (result.Succeeded)
             {
                 _toast.Success("Registered new Family member\n" + rvm.Name);
+
                 return RedirectToAction("Index","Home");
             }
             _toast.Error("Unable to Register User" + result.Errors.Humanize());

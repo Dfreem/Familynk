@@ -6,13 +6,18 @@ global using Familynk.Models.Messages;
 global using Familynk.ViewModels;
 global using Familynk.Controllers;
 global using Familynk.Data;
+global using Familynk;
+global using Familynk.Hubs;
 
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Mvc.ModelBinding;
 global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.SignalR;
+global using Microsoft.AspNetCore.SignalR.Protocol;
 
 global using System;
 global using System.Linq;
@@ -22,7 +27,6 @@ global using System.Resources;
 global using System.Collections;
 global using System.Collections.Generic;
 global using System.ComponentModel;
-global using Microsoft.AspNetCore.Mvc.ModelBinding;
 global using System.ComponentModel.DataAnnotations;
 global using System.ComponentModel.DataAnnotations.Schema;
 

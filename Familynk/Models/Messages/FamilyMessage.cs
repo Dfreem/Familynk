@@ -12,5 +12,10 @@ public class FamilyMessage : AppMessage, ITaggable
     public int? FamilyUnitId { get; set; }
     [Required]
     public FamilyUnit Family { get; set; } = default!;
+
+    public Task ReceiveMessage(string user, string message)
+    {
+        throw new NotImplementedException();
+    }
 }
 

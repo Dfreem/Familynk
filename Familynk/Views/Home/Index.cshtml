@@ -19,19 +19,23 @@
                     <i class="bi bi-trash text-danger text-info"></i>Delete Family
                 </a>
             </p>
+            @if (User.IsInRole("FamilyMember") && Model.Visitor!.FamilyUnitId.Equals(Model.Neighborhood[i].FamilyUnitId))
+            {
 
-            <form class="mx-2" asp-action="AddFamilyMember" asp-route-toAdd="@toAdd" asp-controller="Family">
-                <div class="form-floating">
-                    <input type="hidden" value="@Model.Neighborhood[i].FamilyUnitId" asp-for="@fid" />
-                    <label class="w-50 flex-wrap d-flex">add a member</label>
-                    <input asp-for="@toAdd" class="form-control" placeholder="Enter a Username" />
-                    <input type="submit" value="Add a member" class="btn add-btn"/>
-                </div>
-            </form>
+                <form class="mx-2" asp-action="AddFamilyMember" asp-route-toAdd="@toAdd" asp-controller="Family">
+                    <div class="form-floating">
+                        <input type="hidden" value="@Model.Neighborhood[i].FamilyUnitId" asp-for="@fid" />
+                        <label class="w-50 flex-wrap d-flex">add a member</label>
+                        <input asp-for="@toAdd" class="form-control" placeholder="Enter a Username" />
+                        <input type="submit" value="Add a member" class="btn add-btn" />
+                    </div>
+                </form>
+            }
         </div>
     }
 
 </div>
+
 <form method="post" asp-action="CreateNewFamily" asp-controller="Family">
     <div class="form-floating mx-auto w-50">
         <input asp-for="NewFamily.FamilyName" class="form-control" />

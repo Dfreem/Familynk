@@ -19,9 +19,18 @@ public class HomeController : Controller
         _signInManager = services.GetRequiredService<SignInManager<FamilyMember>>();
         _userManager = _signInManager.UserManager;
         string? uName = _signInManager.Context.User!.Identity!.Name;
-        CurrentUser = _userManager.FindByNameAsync(uName!).Result!;
-    }
 
+        CurrentUser = _userManager.FindByNameAsync(uName!).Result! ?? new() { Name = "Guest" };
+    }
+    // Home/Index shows a view in which a user may see all the registered users on the platrform.
+    // A user is able to do the following within this view:
+    /*
+     - Search for a family by family name or a members user name
+     - Click on a family to navigatew to their front porch
+     - Create a family and add themselves to it
+     */
+
+    [AllowAnonymous]
     public IActionResult Index()
     {
         WelcomeVM wvm = new()
@@ -32,6 +41,31 @@ public class HomeController : Controller
         };
         return View(wvm);
     }
+
+    // GET: /<controller>/
+    public IActionResult FamilyRoom()
+    {
+        var messages = _context.ChatTv.Where(m => m.FamilyUnitId.Equals(CurrentUser.FamilyUnitId));
+
+        FamilyChat familyMessages = new()
+        {
+            Messages = messages.ToList(),
+            SenderId = CurrentUser.Id
+        };
+        LivingRoomVM lvm = new()
+        {
+            ChatTv = familyMessages,
+            CurrentUser = CurrentUser,
+            Family = _context.Neighborhood.First(
+                u => u.FamilyUnitId.Equals(CurrentUser.FamilyUnitId))
+        };
+        lvm.Family.GetCalendar = new()
+        {
+            FamilyName = lvm.Family.FamilyName
+        };
+        return View(lvm);
+    }
+
 
     public IActionResult Privacy()
     {

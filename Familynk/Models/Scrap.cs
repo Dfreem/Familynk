@@ -11,4 +11,9 @@ public class Scrap : ITaggable
     public string? MemberTagId { get; set; }
     public string? SenderId { get; set; }
     public DateTime DateCreated { get; set; } = new();
+
+    public Task ReceiveMessage(string user, string message)
+    {
+        throw new NotImplementedException();
+    }
 }

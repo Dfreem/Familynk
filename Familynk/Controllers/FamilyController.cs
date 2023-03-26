@@ -44,26 +44,6 @@ public class FamilyController : Controller
         };
         return View(lvm);
     }
-    public IActionResult ScrapBook()
-    {
-        return View();
-    }
-    public IActionResult RecipeBook()
-    {
-        return View();
-    }
-    public IActionResult Office()
-    {
-        return View();
-    }
-    public IActionResult FamilyTree()
-    {
-        return View();
-    }
-    public IActionResult FamilyHistory()
-    {
-        return View();
-    }
 
     #region Non-View Methods
 
@@ -85,7 +65,7 @@ public class FamilyController : Controller
         if (result.Succeeded)
         {
             _toast.Success($"Succesfully created the {family.FamilyName} Family");
-            return RedirectToAction("FamilyRoom", "Family");
+            return RedirectToAction("FamilyRoom", "Home");
         }
         _toast.Error("Unable to create new family");
         return RedirectToAction("Index", "Home");
@@ -112,7 +92,7 @@ public class FamilyController : Controller
             _context.ChatTv.Remove(await _context.ChatTv.LastAsync());
         }
         await _context.SaveChangesAsync();
-        return RedirectToAction("FamilyRoom");
+        return RedirectToAction("FamilyRoom", "Home");
     }
 
     public async Task<IActionResult> DeleteFamilyMessage(int familyMessageId)
@@ -120,7 +100,7 @@ public class FamilyController : Controller
         var toDelete = await _context.ChatTv.FindAsync(familyMessageId);
         _context.ChatTv.Remove(toDelete!);
         _context.SaveChanges();
-        return RedirectToAction("FamilyRoom");
+        return RedirectToAction("FamilyRoom", "Home");
     }
 
     // TODO send invite to family instead of automatically adding them

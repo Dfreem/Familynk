@@ -15,5 +15,9 @@ public class FamilyEvent : ITaggable
     public string? Details { get; set; } = default;
     public List<Comment> Comments { get; set; } = new();
 
+    public Task ReceiveMessage(string user, string message)
+    {
+        throw new NotImplementedException();
+    }
 }
 
