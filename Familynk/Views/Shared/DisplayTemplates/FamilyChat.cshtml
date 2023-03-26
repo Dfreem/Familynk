@@ -7,25 +7,29 @@
 
 <ul class="chat">
     @foreach (var message in @Model.Messages)
+    {
+        @if (@Model.SenderId!.Equals(message.SenderId))
         {
-        @if (@Model.SenderId!.Equals(Model.SenderId))
-            {
 
             <li class="message left">
                 <img class="logo" src="https://randomuser.me/api/portraits/women/17.jpg" alt="">
+                <div class="delete-message-icon">
+                    <a asp-action="DeleteFamilyMessage" asp-controller="Family" asp-route-familyMessageId="@message.FamilyMessageId"><i class="bi bi-trash text-danger"></i></a>
+                </div>
+
                 <b>@message.SenderName</b>
                 <p>@message.Body</p>
             </li>
 
-            }
-            else
-            {
+        }
+        else
+        {
             <li class="message right">
                 <img class="logo" src="https://randomuser.me/api/portraits/men/67.jpg" alt="">
                 <b>@message.SenderName</b>
                 <p>@message.Body</p>
             </li>
 
-            }
         }
-    </ul>
+    }
+</ul>

@@ -42,3 +42,24 @@ global using System.ComponentModel.DataAnnotations.Schema;
 
 
 global using IServiceProvider = System.IServiceProvider;
+
+/*
+TODO Notifications
+TODO Tag System
+TODO words on new family input
+TODO Events show up on calendar
+TODO Site Admin are
+TODO Magnetic message
+TODO Family History
+TODO front porch
+    - if a user is not registered to a family, they may only see the familie front porch, and leave a message.
+    - (Maybe) a non-family member may request to be in a family.
+TODO Family Tree
+TODO Invites:
+    - A family member can send an invitation to either a registered users DM's or an unregistered users email.
+    - A user cannot join a family without an invitation code.
+TODO Users Bedroom
+    - upload and set avarars
+    - choose bubble colors
+    - color schemes?
+*/

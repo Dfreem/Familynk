@@ -8,17 +8,19 @@
 <div class="family-calendar mt-4">
     @Html.DisplayFor(model => model.Family.GetCalendar)
 </div>
-
 <div class="chat-container">
+        <div class="tv">
+            @Html.DisplayFor(model => model.ChatTv)
+        </div>
 
-    @Html.DisplayFor(model => model.ChatTv)
-    <form method="post" asp-action="SendFamilyMessage" asp-controller="Family" asp-route-newMessage="@newMessage">
-        <input type="hidden" asp-for="@Model.ChatTv.SenderId" value="@Model.ChatTv.SenderId" class="form-control" />
-        <input class="text_input" asp-for="@newMessage.Body" />
-    </form>
-
+    <div class="chat-input">
+        <form method="post" asp-action="SendFamilyMessage" asp-controller="Family" asp-route-newMessage="@newMessage">
+            <input type="hidden" asp-for="@Model.ChatTv.SenderId" value="@Model.ChatTv.SenderId" class="form-control" />
+            <button type="submit" class=" btn btn-outline-success circle  chat-submit"><i class="bi bi-send"></i></button>
+            <input class="text_input" asp-for="@newMessage.Body" />
+        </form>
+    </div>
 </div>
-
 <!--<div class="couch">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 150 800 300" clip-path="" height="300" y="-20">-->
 <!-- Couch body -->
