@@ -1,32 +1,31 @@
 ﻿@model FamilyChat
+@{
 
-<link rel="stylesheet" href="FamilyChat.cshtml.css" />
-@*<h2>Weekly Coding Challenge #8 <br /> Chat Interface</h2>*@
+}
 
-    <ul class="chat">
-        @foreach (var message in Model.Messages)
+@*<link rel="stylesheet" href="FamilyChat.cshtml.css" />*@
+
+<ul class="chat">
+    @foreach (var message in @Model.Messages)
         {
-            if (message.SenderId!.Equals(Model.SenderId))
+        @if (@Model.SenderId!.Equals(Model.SenderId))
             {
 
-                <li class="message left">
-                    <img class="logo" src="https://randomuser.me/api/portraits/women/17.jpg" alt="">
-                    <b>@message.SenderName</b>
-                    <p>@message.Body</p>
-                </li>
+            <li class="message left">
+                <img class="logo" src="https://randomuser.me/api/portraits/women/17.jpg" alt="">
+                <b>@message.SenderName</b>
+                <p>@message.Body</p>
+            </li>
 
             }
             else
             {
-                <li class="message right">
-                    <img class="logo" src="https://randomuser.me/api/portraits/men/67.jpg" alt="">
-                    <b>@message.SenderName</b>
-                    <p>@message.Body</p>
-                </li>
+            <li class="message right">
+                <img class="logo" src="https://randomuser.me/api/portraits/men/67.jpg" alt="">
+                <b>@message.SenderName</b>
+                <p>@message.Body</p>
+            </li>
 
             }
-
         }
-
     </ul>
-

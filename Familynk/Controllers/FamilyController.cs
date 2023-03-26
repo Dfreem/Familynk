@@ -101,7 +101,7 @@ public class FamilyController : Controller
         }
         return RedirectToAction("Index", "Home");
     }
-
+    [HttpPost]
     public async Task<IActionResult> SendFamilyMessage(FamilyMessage newMessage)
     {
         newMessage.SenderId = CurrentUser.Id;

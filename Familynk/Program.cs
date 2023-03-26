@@ -2,7 +2,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.SetMinimumLevel(LogLevel.Debug).ClearProviders();
-string connection = builder.Configuration.GetConnectionString("AZURE_CONNECTION")!;
+string connection = builder.Configuration.GetConnectionString("MYSQL_CONNECTION")!;
 
 // Add services to the container.
 builder.Services.AddDbContext<FamilyContext>(options =>

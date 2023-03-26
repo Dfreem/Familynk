@@ -10,19 +10,15 @@
 </div>
 
 <div class="chat-container">
-    <form asp-controller="Family" asp-action="SendFamilyMessage" asp-route-newMessage="@newMessage">
-        <div class="scroll-wrap">
-            <div class="inner-scroll">
-                @Html.DisplayFor(model => model.ChatTv)
 
-            </div>
-        </div>
-        <div class="form-group">
-            <input asp-for="@newMessage.Body" type="text" class="text_input form-control" placeholder="Message..." />
-        </div>
-        <input type="submit" value="send" class="btn btn_input" />
+    @Html.DisplayFor(model => model.ChatTv)
+    <form method="post" asp-action="SendFamilyMessage" asp-controller="Family" asp-route-newMessage="@newMessage">
+        <input type="hidden" asp-for="@Model.ChatTv.SenderId" value="@Model.ChatTv.SenderId" class="form-control" />
+        <input class="text_input" asp-for="@newMessage.Body" />
     </form>
+
 </div>
+
 <!--<div class="couch">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 150 800 300" clip-path="" height="300" y="-20">-->
 <!-- Couch body -->
