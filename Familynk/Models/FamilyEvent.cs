@@ -1,7 +1,7 @@
 ﻿
 namespace Familynk.Models;
 
-public class FamilyEvent : ITaggable
+public class FamilyEvent
 {
     public int FamilyEventId { get; set; }
     public string? MemberTagId { get; set; }

@@ -22,14 +22,15 @@ public class FamilyController : Controller
         CurrentUser = _userManager.FindByNameAsync(userName!).Result!;
     }
     // GET: /<controller>/
-    public IActionResult FamilyRoom()
+    public async Task<IActionResult> FamilyRoom()
     {
         var messages = _context.ChatTv.Where(m => m.FamilyUnitId.Equals(CurrentUser.FamilyUnitId));
-
+        var family = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
         FamilyChat familyMessages = new()
         {
             Messages = messages.ToList(),
-            SenderId = CurrentUser.Id
+            FamilyUnitId = CurrentUser.FamilyUnitId??0,
+            Family = family??new()
         };
         LivingRoomVM lvm = new()
         {

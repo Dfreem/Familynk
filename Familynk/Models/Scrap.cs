@@ -1,6 +1,6 @@
 ﻿namespace Familynk.Models;
 
-public class Scrap : ITaggable
+public class Scrap
 {
     public int ScrapId { get; set; }
     public int ScrapBookId { get; set; }

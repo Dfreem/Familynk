@@ -1,14 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Familynk.Data;
-using Familynk.Models;
-using NuGet.Packaging;
-
 namespace Familynk.Controllers
 {
     [Authorize]
@@ -19,7 +8,7 @@ namespace Familynk.Controllers
         private readonly INotyfService _toast;
         private readonly FamilyContext _context;
         public FamilyMember CurrentUser { get; set; }
-        public ScrapBook? Book { get; set; }
+        public ScrapBook Book { get; set; }
 
         public ScrapbookController(IServiceProvider services, FamilyContext context)
         {
@@ -31,7 +20,7 @@ namespace Familynk.Controllers
             string un = _signInManager.Context.User.Identity!.Name!;
             CurrentUser = _userManager.FindByNameAsync(un).Result!;
             var fam = _context.Neighborhood.Find(CurrentUser.FamilyUnitId);
-            Book = _context.ScrapBooks.Find(fam!.FamilyScraps.ScrapBookId);
+            Book = _context.ScrapBooks.Find(fam!.FamilyScraps.ScrapBookId) ?? new();
         }
 
         // GET: Scrapbook
@@ -52,7 +41,7 @@ namespace Familynk.Controllers
             return View(svm);
         }
 
-        // GET: Scrapbook/Details/5
+        // GET: Scrap/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Scraps == null)
@@ -70,7 +59,7 @@ namespace Familynk.Controllers
             return View(scrap);
         }
 
-        // GET: Scrapbook/Create
+        // Create new Scrap to insert into this ScrapBook
         public async Task<IActionResult> Create()
         {
             ScrapBookVM svm = new();
@@ -86,9 +75,7 @@ namespace Familynk.Controllers
             return View(svm);
         }
 
-        // POST: Scrapbook/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // creates and inserts new scrap ito scrapbook
         [HttpPost]
         public async Task<IActionResult> Create([Bind("NewScrap, FileUpload")] ScrapBookVM svm)
         {
@@ -108,8 +95,8 @@ namespace Familynk.Controllers
         /// protected method specifically for uploading files to Famliynk.
         /// This method contains all the additions needed to insert a <see cref="Familynk.Models.Scrap"></see> into to the database along with an image. The image is converted to a byte array then store in an <see cref="Image"/>.
         /// </summary>
-        /// <param name="svm"></param>
-        /// <param name="file"></param>
+        /// <param name="svm">ViewModel sent by form</param>
+        /// <param name="file">the <see cref="IFormFile"></see> sent by the form post</param>
         /// <returns></returns>
         protected async Task<Image> FileImageExtract(ScrapBookVM svm, IFormFile file)
         {
@@ -144,6 +131,7 @@ namespace Familynk.Controllers
 
         }
 
+        // change the image related to a scrap
         public async Task<IActionResult> UpdateScrapImage(int id, [Bind("ScrapBook, FamilyUnit, Scrap ")] ScrapBookVM svm)
         {
             var scrap = await _context.Scraps.FindAsync(svm.Edit.ScrapId);
@@ -157,7 +145,7 @@ namespace Familynk.Controllers
             return RedirectToAction("Edit");
         }
 
-        // GET: Scrapbook/Edit/5                                         List
+        // GET: Scrap/Edit/5                                         List
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Scraps == null)
@@ -182,9 +170,8 @@ namespace Familynk.Controllers
             return View(svm);
         }
 
-        // POST: Scrapbook/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Scrap/Edit/5
+        // Edit: Scrap/Edit/5 NOT ScrapBook
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ScrapId,Title,MemberTagId,SenderId")] ScrapBookVM scrap)
