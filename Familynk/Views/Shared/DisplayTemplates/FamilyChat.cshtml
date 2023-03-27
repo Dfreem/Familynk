@@ -8,7 +8,9 @@
 <ul class="chat">
     @foreach (var message in @Model.Messages)
     {
-        @if (@Model.SenderId!.Equals(message.SenderId))
+        Html.DisplayFor(model => message.Sender.UserName);
+        Html.DisplayFor(model => User.Identity!.Name!);
+        @if (User.Identity!.Name!.Equals(message.Sender.UserName))
         {
 
             <li class="message left">
@@ -17,7 +19,7 @@
                     <a asp-action="DeleteFamilyMessage" asp-controller="Family" asp-route-familyMessageId="@message.FamilyMessageId"><i class="bi bi-trash text-danger"></i></a>
                 </div>
 
-                <b>@message.SenderName</b>
+                <b>@message.Sender.Name</b>
                 <p>@message.Body</p>
             </li>
 
@@ -26,7 +28,7 @@
         {
             <li class="message right">
                 <img class="logo" src="https://randomuser.me/api/portraits/men/67.jpg" alt="">
-                <b>@message.SenderName</b>
+                <b>@message.Sender.Name</b>
                 <p>@message.Body</p>
             </li>
 

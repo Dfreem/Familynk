@@ -24,13 +24,17 @@ public class FamilyController : Controller
     // GET: /<controller>/
     public async Task<IActionResult> FamilyRoom()
     {
-        var messages = _context.ChatTv.Where(m => m.FamilyUnitId.Equals(CurrentUser.FamilyUnitId));
+        var messages = await _context.ChatTv
+            .Include(m => m.Sender)
+            .Where(m => m.FamilyUnitId
+            .Equals(CurrentUser.FamilyUnitId)).ToListAsync();
+
         var family = await _context.Neighborhood.FindAsync(CurrentUser.FamilyUnitId);
         FamilyChat familyMessages = new()
         {
-            Messages = messages.ToList(),
+            Messages = messages,
             FamilyUnitId = CurrentUser.FamilyUnitId??0,
-            Family = family??new()
+            Family = family??new(),
         };
         LivingRoomVM lvm = new()
         {
@@ -106,7 +110,7 @@ public class FamilyController : Controller
     public async Task<IActionResult> SendFamilyMessage(FamilyMessage newMessage)
     {
         newMessage.SenderId = CurrentUser.Id;
-        newMessage.FamilyUnitId = CurrentUser.FamilyUnitId;
+        newMessage.FamilyUnitId = CurrentUser.FamilyUnitId??0;
         await _context.ChatTv.AddAsync(newMessage);
         if (await _context.ChatTv.Where(m => m.FamilyUnitId.Equals(CurrentUser.FamilyUnitId)).CountAsync() > 25)
         {

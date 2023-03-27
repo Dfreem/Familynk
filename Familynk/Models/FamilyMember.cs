@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Familynk.Models;
 
-public class FamilyMember 
+public class FamilyMember : IdentityUser
 {
     public int? FamilyUnitId { get; set; } = default!;
 

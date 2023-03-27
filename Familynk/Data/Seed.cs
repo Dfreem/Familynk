@@ -62,13 +62,13 @@ public static class Seed
         var context = services.GetRequiredService<FamilyContext>();
         var uManager = services.GetRequiredService<UserManager<FamilyMember>>();
         var devin = await uManager.FindByNameAsync("dfreem987");
-        var someGuy = await uManager.FindByNameAsync("dfreem987");
+        var someGuy = await uManager.FindByNameAsync("TestUser123");
         if (!context.ChatTv.IsNullOrEmpty())
         { return; }
         context.ChatTv.Add(new()
         {
             Body = "This is a new chat message",
-            SenderName = "Devin",
+            Sender = devin!,
             SenderId = devin!.Id,
             Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
         });
@@ -76,7 +76,7 @@ public static class Seed
         context.ChatTv.Add(new()
         {
             Body = "Ok, sounds good",
-            SenderName = "some guy",
+            Sender = someGuy,
             SenderId = "t1",
             Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
         });
@@ -84,7 +84,7 @@ public static class Seed
         context.ChatTv.Add(new()
         {
             Body = "This is cool",
-            SenderName = "Devin",
+            Sender = devin,
             SenderId = "d1",
             Family = context.Neighborhood.First(u => u.FamilyName.Equals("Freeman"))
         });
@@ -93,20 +93,20 @@ public static class Seed
         
     }
 
-    public async static Task SeedDms(IServiceProvider services)
-    {
-        var context = services.GetRequiredService<FamilyContext>();
+    //public async static Task SeedDms(IServiceProvider services)
+    //{
+    //    var context = services.GetRequiredService<FamilyContext>();
 
-        if (!context.DMs.IsNullOrEmpty())
-        { return; }
-        context.DMs.Add(new()
-        {
-            Body = " This is a test message",
-            RecipientId = "d1",
-            SenderId = "t1"
-        });
-        await context.SaveChangesAsync();
-    }
+    //    if (!context.DMs.IsNullOrEmpty())
+    //    { return; }
+    //    context.DMs.Add(new()
+    //    {
+    //        Body = " This is a test message",
+    //        RecipientId = "d1",
+    //        SenderId = "t1"
+    //    });
+    //    await context.SaveChangesAsync();
+    //}
 
     public static void SeedCalendar(IServiceProvider services)
     {
@@ -120,8 +120,7 @@ public static class Seed
         {
             Details = "this is for testing",
             Title = "Test Event",
-            EventDate = DateTime.Now,
-            SenderId = "d1"
+            EventDate = DateTime.Now
         });
         var signIn = services.GetRequiredService<SignInManager<FamilyMember>>();
         family.GetCalendar.FamilyId = family.FamilyUnitId;

@@ -202,10 +202,7 @@ namespace Familynk.Controllers
                 ModelState.AddModelError(nameof(Comment), "Could not find Comment");
                 return RedirectToAction(nameof(Index));
             }
-            var _event = await _context.Events.FirstAsync(e => e.FamilyEventId.Equals(toDelete!.FamilyEventId));
-            _event.Comments.Remove(toDelete);
             _context.Comments.Remove(toDelete);
-            _context.Events.Update(_event);
             return RedirectToAction(nameof(Index), "Calendar");
         }
 

@@ -83,7 +83,7 @@ public class FamilyRepository : IFamilyRepo
     // AppMessage CRUD operations
     public async Task<DirectMessage?> GetDMAsync(int DirectMessageId)
     {
-        return await _dbContext.DMs.FirstOrDefaultAsync(m => m.AppMessageId == DirectMessageId);
+        return await _dbContext.DMs.FirstOrDefaultAsync(m => m.DirectMessageId == DirectMessageId);
     }
 
     public async Task<List<DirectMessage>> GetDMsAsync()
@@ -102,7 +102,7 @@ public class FamilyRepository : IFamilyRepo
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<FamilyMessage?> GetFamilyMessageAsync(int FamilyMessageId) => await _dbContext.ChatTv.FirstOrDefaultAsync(m => m.AppMessageId == FamilyMessageId);
+    public async Task<FamilyMessage?> GetFamilyMessageAsync(int FamilyMessageId) => await _dbContext.ChatTv.FirstOrDefaultAsync(m => m.FamilyMessageId == FamilyMessageId);
 
     public async Task<List<FamilyMessage>> GetFamilyMessagesAsync()
     {

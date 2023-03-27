@@ -15,7 +15,7 @@
 
     <div class="chat-input">
         <form method="post" asp-action="SendFamilyMessage" asp-controller="Family" asp-route-newMessage="@newMessage">
-            <input type="hidden" asp-for="@Model.ChatTv.SenderId" value="@Model.ChatTv.SenderId" class="form-control" />
+            @*<input type="hidden" asp-for="@Model.ChatTv.SenderId" value="@Model.ChatTv.SenderId" class="form-control" />*@
             <button type="submit" class=" btn btn-outline-success circle  chat-submit"><i class="bi bi-send"></i></button>
             <input class="text_input" asp-for="@newMessage.Body" />
         </form>

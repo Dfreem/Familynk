@@ -23,7 +23,6 @@ public class FamilyContext : IdentityDbContext<FamilyMember>
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Scrap> Scraps { get; set; }
     public DbSet<ScrapBook> ScrapBooks { get; set; }
-    public DbSet<MemberTag> Tags { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet <UserSettings> UserSettings { get; set; }

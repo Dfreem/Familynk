@@ -4,6 +4,7 @@ namespace Familynk.Models.Messages;
 
 public class FamilyChat
 {
+    public int FamilyChatId { get; set; }
     public List<FamilyMessage> Messages { get; set; } = new();
     [NotMapped]
     public FamilyMessage NewMessage { get; set; } = new();

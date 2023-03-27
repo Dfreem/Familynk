@@ -83,7 +83,7 @@ public class FakeFamilyRepository : IFamilyRepo
 
     public async Task<DirectMessage?> GetDMAsync(int DirectMessageId)
     {
-        return await Task.FromResult(_dms.FirstOrDefault(m => m.AppMessageId == DirectMessageId));
+        return await Task.FromResult(_dms.FirstOrDefault(m => m.DirectMessageId == DirectMessageId));
     }
 
     public async Task<List<DirectMessage>> GetDMsAsync()
@@ -93,7 +93,7 @@ public class FakeFamilyRepository : IFamilyRepo
 
     public async Task CreateDirectMessageAsync(DirectMessage message)
     {
-        message.AppMessageId = _dms.Count + 1;
+        message.DirectMessageId = _dms.Count + 1;
         _dms.Add(message);
         await Task.CompletedTask;
     }
@@ -106,7 +106,7 @@ public class FakeFamilyRepository : IFamilyRepo
 
     public async Task<FamilyMessage?> GetFamilyMessageAsync(int FamilyMessageId)
     {
-        return await Task.FromResult(_familyMessages.FirstOrDefault(m => m.AppMessageId == FamilyMessageId));
+        return await Task.FromResult(_familyMessages.FirstOrDefault(m => m.FamilyMessageId == FamilyMessageId));
     }
 
     public async Task<List<FamilyMessage>> GetFamilyMessagesAsync()
