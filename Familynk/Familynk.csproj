@@ -36,6 +36,7 @@
     <None Remove="ViewModels\" />
     <None Remove="Util\" />
     <None Remove="Hubs\" />
+    <None Remove="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\" />
@@ -43,11 +44,12 @@
     <Folder Include="wwwroot\images\" />
     <Folder Include="Util\" />
     <Folder Include="Hubs\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Models\GreetingsMat.cs" />
     <Compile Remove="Data\ImageCollection.cs" />
     <Compile Remove="Controllers\FamilyEventController.cs" />
+    <Compile Remove="Models\Scrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />

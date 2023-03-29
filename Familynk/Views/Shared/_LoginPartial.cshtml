@@ -1,8 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<FamilyMember> SignInManager
-@inject IAuthorizationService auth
+﻿@inject SignInManager<FamilyMember> signInManager
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
+    @if (signInManager.IsSignedIn(User))
     {
         <li class="nav-item">
             <a class="nav-link text-light" asp-controller="Account" asp-action="Index">Hello @User.Identity?.Name!</a>
@@ -12,7 +10,7 @@
                 <button type="submit" class="nav-link btn btn-link text-warning">Logout</button>
             </form>
         </li>
-        <li class="nav-item">
+        @*<li class="nav-item">
             <a class="nav-link text-light" asp-controller="Family" asp-action="FamilyRoom">Familly Room</a>
         </li>
         <li class="nav-item">
@@ -23,7 +21,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link text-light" asp-controller="ScrapBook" asp-action="Index">Scrapbook</a>
-        </li>
+        </li>*@
     }
     else
     {
@@ -34,11 +32,11 @@
             <a class="nav-link text-light" asp-action="Login" asp-controller="Account">Login</a>
         </li>
     }
-    @if (User.IsInRole("HOH"))
+    @*@if (User.IsInRole("HOH"))
     {
         <li class="nav-item">
             <a class=" nav-link text-info" asp-controller="Office" asp-action="Index">Office</a>
         </li>
-    }
+    }*@
 </ul>
 

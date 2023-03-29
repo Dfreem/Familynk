@@ -1,4 +1,4 @@
-﻿@model UserProfileVM
+﻿@model AccountVM
 @{
     ViewData["Title"] = "User Profile";
 }
@@ -19,7 +19,7 @@
 
                     <label asp-for="Name">
                     </label>
-                    <input type="hidden" value="@Model.Id" asp-for="Id" />
+                    <input type="hidden" value="@Model.CurrentUser.Id" asp-for="CurrentUser.Id" />
                     <input type="text" asp-for="Name" class="form-control" value="" />
                     <input type="submit" value="save" class="btn btn-primary" />
                 </div>
@@ -29,7 +29,7 @@
 
                     <label asp-for="UserName">
                     </label>
-                    <input type="hidden" value="@Model.Id" asp-for="Id" />
+                    <input type="hidden" value="@Model.CurrentUser.Id" asp-for="CurrentUser.Id" />
                     <input type="text" asp-for="UserName" class="form-control" value="" />
                     <input type="submit" value="save" class="btn btn-primary" />
                 </div>
@@ -40,7 +40,7 @@
 
                     <label asp-for="PhoneNumber">
                     </label>
-                    <input type="hidden" value="@Model.Id" asp-for="Id" />
+                    <input type="hidden" value="@Model.CurrentUser.Id" asp-for="CurrentUser.Id" />
                     <input type="text" asp-for="PhoneNumber" class="form-control" value="" />
                     <input type="submit" value="save" class="btn btn-primary" />
                 </div>
@@ -50,7 +50,7 @@
 
                     <label asp-for="Email">
                     </label>
-                    <input type="hidden" value="@Model.Id" asp-for="Id" />
+                    <input type="hidden" value="@Model.CurrentUser.Id" asp-for="CurrentUser.Id" />
                     <input type="text" asp-for="Email" class="form-control" value="" />
                     <input type="submit" value="save" class="btn btn-primary" />
                 </div>
@@ -60,7 +60,7 @@
 
                     <label asp-for="Birthday">
                     </label>
-                    <input type="hidden" value="@Model.Id" asp-for="Id" />
+                    <input type="hidden" value="@Model.CurrentUser.Id" asp-for="CurrentUser.Id" />
                     <input type="date" asp-for="Birthday" class="form-control" value="" />
                     <input type="submit" value="save" class="btn btn-primary" />
                 </div>
@@ -68,7 +68,7 @@
             <hr />
             <form method="post" asp-action="ChangePassword" asp-controller="Account">
 
-                <input type="hidden" value="@Model.Id" asp-for="Id" />
+                <input type="hidden" value="@Model.CurrentUser.Id" asp-for="CurrentUser.Id" />
                 <div class="form-floating d-flex my-1">
                     <label asp-for="NewPassword">New Password</label>
                     <input type="password" asp-for="NewPassword" class="form-control" />

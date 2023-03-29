@@ -28,51 +28,51 @@ namespace Familynk.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            UserProfileVM uvm = new(CurrentUser);
-            return View(uvm);
+            AccountVM avm = new(CurrentUser);
+            return View(avm);
         }
         [HttpGet]
         public IActionResult Register()
         {
-            RegisterVM rvm = new();
-            return View(rvm);
+            AccountVM avm = new();
+            return View(avm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterVM rvm)
+        public async Task<IActionResult> Register(AccountVM avm)
         {
             if (!ModelState.IsValid)
             {
                 _toast.Error("something went wrong");
-                return View(rvm);
+                return View(avm);
             }
             
             var userManager = _signinManager.UserManager;
             var result = await userManager.CreateAsync(new FamilyMember()
             {
-                Name = rvm.Name,
-                UserName = rvm.UserName,
-                Email = rvm.Email,
-            }, rvm.Password);
+                Name = avm.Name,
+                UserName = avm.UserName,
+                Email = avm.Email,
+            }, avm.CurrentPassword);
             if (result.Succeeded)
             {
-                _toast.Success("Registered new Family member\n" + rvm.Name);
+                _toast.Success("Registered new Family member\n" + avm.Name);
                 return RedirectToAction("Index","Home");
             }
             _toast.Error("Unable to Register User" + result.Errors.Humanize());
-            return View(rvm);
+            return View(avm);
         }
         public IActionResult Login()
         {
-            LoginVM lvm = new();
+            AccountVM lvm = new();
             return View(lvm);
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM lvm)
+        public async Task<IActionResult> Login(AccountVM lvm)
         {
             if (ModelState.IsValid)
             {
-                var result = await _signinManager.PasswordSignInAsync(lvm.UserName, lvm.Password, isPersistent: lvm.RememberMe, lockoutOnFailure: false);
+                var result = await _signinManager.PasswordSignInAsync(lvm.UserName!, lvm.CurrentPassword, isPersistent: lvm.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _toast.Success("Successfully Logged in as " + lvm.UserName);
@@ -103,38 +103,39 @@ namespace Familynk.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeUserInfo(UserProfileVM uvm)
+        public async Task<IActionResult> ChangeUserInfo(AccountVM avm)
         {
-            var user = await _signinManager.UserManager.FindByIdAsync(uvm.Id);
-            if (uvm is null || user is null)
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(avm.ReturnUrl); 
+            }
+            var user = await _signinManager.UserManager.FindByIdAsync(avm.CurrentUserId!);
+            if (avm is null || user is null)
             {
                 _toast.Error("I unno what hpppund");
                 return RedirectToAction("Index");
             }
-            if (uvm.UserName !is not null && uvm.UserName != user.UserName)
+            if (avm.UserName !is not null && avm.UserName != user.UserName)
             {
-                user.UserName = uvm.UserName;
-                user.NormalizedUserName = uvm.UserName.ToUpper();
+                user.UserName = avm.UserName;
+                user.NormalizedUserName = avm.UserName.ToUpper();
             }
-            if (uvm.Email is not null && !uvm.Email.Equals(user!.Email))
+            if (avm.Email is not null && !avm.Email.Equals(user!.Email))
             {
-                user.Email = uvm.Email;
-                user.NormalizedEmail = uvm.Email.ToUpper();
+                user.Email = avm.Email;
+                user.NormalizedEmail = avm.Email.ToUpper();
             }
-            if (uvm.Name is not null && !uvm.Name.Equals(user.Name))
+            if (avm.Name is not null && !avm.Name.Equals(user.Name))
             {
-                user.Name = uvm.Name;
+                user.Name = avm.Name;
             }
-            if (uvm.Birthday != user.Birthday)
-            {
-                user.Birthday = uvm.Birthday;
-            }
+        
             await _signinManager.UserManager.UpdateAsync(user!);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(UserProfileVM uvm)
+        public async Task<IActionResult> ChangePassword(AccountVM uvm)
         {
             if (!ModelState.IsValid)
             {
@@ -149,7 +150,7 @@ namespace Familynk.Controllers
             var currentUser = await _signinManager.UserManager.FindByNameAsync(currentUserName!);
 
             //UserManager checks the current password first before changing to the new one.
-            var result = await _signinManager.UserManager.ChangePasswordAsync(currentUser!, uvm.Password, uvm.NewPassword);
+            var result = await _signinManager.UserManager.ChangePasswordAsync(currentUser!, uvm.CurrentPassword, uvm.NewPassword);
             if (result.Succeeded)
             {
                 _toast.Success("Your password has successfully been changed.");

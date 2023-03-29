@@ -6,7 +6,7 @@ global using Familynk.Data;
 global using Familynk.Models.Messages;
 global using Familynk.Models;
 global using Familynk.Util;
-//global using Familynk.ViewModels;
+global using Familynk.ViewModels;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.SignalR;
