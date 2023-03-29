@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
@@ -27,29 +28,25 @@
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="popper.js" Version="1.16.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Interfaces\" />
     <None Remove="Views\Account\" />
     <None Remove="ViewModels\" />
-    <None Remove="Views\Family\" />
-    <None Remove="Views\Shared\DisplayTemplates\" />
     <None Remove="Util\" />
+    <None Remove="Hubs\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Views\Account\" />
     <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\images\" />
-    <Folder Include="Views\Family\" />
-    <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="Util\" />
+    <Folder Include="Hubs\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\GreetingsMat.cs" />
     <Compile Remove="Data\ImageCollection.cs" />
-    <Compile Remove="Usings.cs" />
     <Compile Remove="Controllers\FamilyEventController.cs" />
   </ItemGroup>
   <ItemGroup>

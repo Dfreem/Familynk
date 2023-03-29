@@ -1,6 +1,6 @@
 ﻿namespace Familynk.Models.Messages;
 
-public class Notification : AppMessage
+public class Notification : ChatMessage
 {
     public int NotificationId { get; set; }
     public FamilyMember Recipient { get; set; } = default!;

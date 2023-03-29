@@ -1,4 +1,6 @@
 
+using Familynk.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.SetMinimumLevel(LogLevel.Debug).ClearProviders();
@@ -8,7 +10,6 @@ string connection = builder.Configuration.GetConnectionString("MYSQL_CONNECTION"
 builder.Services.AddDbContext<FamilyContext>(options =>
 {
     options.UseMySql(connection, MySqlServerVersion.Parse("mysql-8.0"));
-    options.EnableSensitiveDataLogging();
 });
 //builder.Services.AddTransient<ISiteRepository, SiteRepository>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -24,6 +25,7 @@ builder.Services.AddSingleton<IFamilyRepo,FakeFamilyRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
 
 builder.Services.AddNotyf(config =>
 {
@@ -56,15 +58,17 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapHub<NotificationsHub>("/Hubs/NotificationsHub");
+app.MapHub<Chat>
 // use scoped service provider to call SeedData initialization.
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    //Init in the static SeedData class checks for the presence of data in the database before seeding or returning.
-    Seed.SeedUsersAsync(services).Wait();
-    Seed.SeedChat(services).Wait();
-    //Seed.SeedDms(services).Wait();
-    Seed.SeedCalendar(services);
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    //Init in the static SeedData class checks for the presence of data in the database before seeding or returning.
+//    Seed.SeedUsersAsync(services).Wait();
+//    Seed.SeedChat(services).Wait();
+//    //Seed.SeedDms(services).Wait();
+//    Seed.SeedCalendar(services);
+//}
 
 app.Run();
